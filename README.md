@@ -18,7 +18,11 @@ I made this public repo so I can show my project to others, as well as to offer 
 
 ## Game rules
 
-Rummy2D is a tile-based game inspired by classic Rummy mechanics. The goal is to form valid sets and runs using numbered tiles.
+Rummy2D is a tile-based game inspired by classic Rummy mechanics. The goal is to form valid **sets** and **runs** using numbered tiles.
+
+Vocabulary :
+- A set or a run is a **meld**
+- In my code, a **run** is a **sequence**
 
 **Basic Rules**
 
@@ -26,15 +30,18 @@ Rummy2D is a tile-based game inspired by classic Rummy mechanics. The goal is to
   - Example: 🔵7, 🔴7, 🟡7 (valid set)
 
 - A run consists of three or more consecutive numbers of the same color.
-    - Example: 🔵5, 🔵6, 🔵7 (valid run)
+  - Example: 🔵5, 🔵6, 🔵7 (valid run)
 
-- Each player starts with a certain number of tiles and takes turns adding to the board.
+- Each player starts with 14 tiles and takes turns adding to the board.
+
+- The first time a player play some tiles, he must place for a total of at least 30 points.
+  - In this first turn, he must only place new melds (sets or runs) from his hand. He can't add any tiles to any existing meld placed by other players.
 
 - Players can rearrange existing tiles on the board to create new valid combinations.
 
 - The first player to place all their tiles wins.
 
-For more details on general Rummy-style tile games, see the [rummikub wikipedia](https://en.wikipedia.org/wiki/Rummikub).
+For more details on general Rummy-style tile games, see the [wikipedia](https://en.wikipedia.org/wiki/Rummikub).
 
 
 ## License
