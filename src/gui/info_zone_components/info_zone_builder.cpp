@@ -8,7 +8,7 @@ using namespace gui;
 
 InfoZoneBuilder::InfoZoneBuilder(const std::vector<IPlayer*>* const players, IGameEventHandler* const gameEventHandler)
 {
-    sf::Font* font = FontLoader::loadFont("assets/fonts/Inconsolata-Regular.ttf");
+    sf::Font* font = FontLoader::loadFont(Font::Inconsolata);
 
     // Création du logger
     TextLoggerComponent* textLoggerComponent = new TextLoggerComponent(font);

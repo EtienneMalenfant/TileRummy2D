@@ -4,7 +4,7 @@
 using namespace gui;
 
 FpsCounter::FpsCounter() {
-    _font = FontLoader::loadFont("assets/fonts/Inconsolata-Regular.ttf");
+    _font = FontLoader::loadFont(Font::Inconsolata);
     _text.setFont(*_font);
     _text.setCharacterSize(15);
     _text.setFillColor(sf::Color(255, 255, 255, 155));

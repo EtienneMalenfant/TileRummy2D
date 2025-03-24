@@ -7,12 +7,12 @@
 
 using namespace gui;
 
-GameZoneContainerBuilder::GameZoneContainerBuilder(GameDependencies* dependencies, IGameEventHandler* eventHandler, 
+GameZoneContainerBuilder::GameZoneContainerBuilder(GameDependencies* dependencies, IGameEventHandler* eventHandler,
     IWindowEventsPublisher* eventsPublisher,  float mainZoneHeightRatio)
-    : _mainZoneHeightRatio(mainZoneHeightRatio) 
+    : _mainZoneHeightRatio(mainZoneHeightRatio)
 {
-    sf::Font* font = FontLoader::loadFont("assets/fonts/Inter_28pt-Bold.ttf");
-    const TileInfo* tileInfo = new TileInfo { 
+    sf::Font* font = FontLoader::loadFont(Font::Inter);
+    const TileInfo* tileInfo = new TileInfo {
         sf::Color(240, 196, 79),
         40,
         60,
@@ -25,7 +25,7 @@ GameZoneContainerBuilder::GameZoneContainerBuilder(GameDependencies* dependencie
     eventHandler->addUpdeatable(meldsContainer);
     _meldsContainer = meldsContainer;
     _meldsContainer->setFillColor(sf::Color(0, 110, 0));
-    
+
     //zone de l'inventaire du joueur
     PlayerTilesContainer* playerTilesContainer = new PlayerTilesContainer(tileFactory, dependencies->currentPlayer);
     eventHandler->addUpdeatable(playerTilesContainer);
