@@ -1,4 +1,5 @@
 #include <logger.h>
+#include <io/file_output.h>
 
 using namespace std;
 
@@ -25,19 +26,15 @@ void ConsoleLogger::log(const string& message, LogType type) {
 const string FileLogger::_logDir { "logs/" };
 
 FileLogger::FileLogger(const string& filename, bool overwrite) {
-    if (overwrite) {
-        _file.open(_logDir + filename, ios::out | ios::trunc);
-    } else {
-        _file.open(_logDir + filename, ios::out | ios::app);
-    }
+    _file = new FileOutput(_logDir + filename, overwrite);
 }
 
 FileLogger::~FileLogger() {
-    _file.close();
+    delete _file;
 }
 
 void FileLogger::log(const string& message) {
-    _file << getTimeStamp() << message << endl;
+    _file->writeLine(getTimeStamp() + message);
 }
 
 void FileLogger::log(const string& message, LogType type) {

@@ -6,7 +6,7 @@ TileWrapperManager::TileWrapperManager(IMeldsContainer* meldsContainer) : _melds
 
 void TileWrapperManager::resertArrays() {
     for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 14; j++) {
+        for (int j = 0; j < 13; j++) {
             for (int k = 0; k < 2; k++) {
                 delete _tiles[i][j][k];
                 _tiles[i][j][k] = nullptr;

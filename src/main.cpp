@@ -8,7 +8,11 @@
 #include <tests/test.h>
 
 int main(int argc, char** argv) {
-    test::runTests();
+
+    #ifdef DEBUG
+        test::runTests();
+    #endif
+
     // Créer le jeu
     IGameBuilder* gameBuilder = new RummyGameBuilder(2);
 

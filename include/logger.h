@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <iostream>
-#include <fstream>
+#include <io/i_output_stream.h>
 
 enum class LogType {
     Info,
@@ -28,7 +28,7 @@ public:
 
 class FileLogger : public ILogger {
 private:
-    std::ofstream _file;
+    IOutputStream* _file;
     static const std::string _logDir;
 public:
     FileLogger(const std::string& filename, bool overwrite = false);

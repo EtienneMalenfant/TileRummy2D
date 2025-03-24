@@ -11,6 +11,7 @@ namespace gui {
         virtual void start() = 0;
         virtual bool isRunning() const = 0;
         virtual void refresh() = 0;
+        virtual ~IGameInterface() = default;
     };
 
     class WindowGameInterface : public IGameInterface {
