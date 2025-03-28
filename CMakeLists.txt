@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(TileRummy2D VERSION 1.0)
+project(TileRummy2D VERSION 0.9)
 
 find_package(SFML 2.6 COMPONENTS graphics window system REQUIRED)
-find_package(Boost CONFIG REQUIRED)
+find_package(Boost CONFIG REQUIRED COMPONENTS json)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -38,8 +38,9 @@ else()
 endif()
 
 # Dependencies
-target_link_libraries(TileRummy2D
+target_link_libraries(TileRummy2D PRIVATE
     sfml-system
     sfml-graphics
     sfml-window
+    Boost::json
 )

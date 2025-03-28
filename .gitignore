@@ -3,3 +3,4 @@ build
 .fuse*
 logs
 .vscode
+bin

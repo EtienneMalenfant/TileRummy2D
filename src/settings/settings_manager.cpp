@@ -1,35 +1,18 @@
-#include <settings/settings_manager.h>
+#include <settings/settings_loader.h>
 #include <io/file_input.h>
 #include <io/file_output.h>
 #include <io/string_ops.h>
 
-SettingsManager::SettingsManager(const std::string& fileName) : _fileName(fileName) {
-    IInputStream* fileIn = new FileInput(fileName);
-    while (fileIn->hasNext()) {
-        std::string line = fileIn->readNext();
+using namespace boost;
 
-        size_t pos = line.find(':');
-        std::string key = line.substr(0, pos);
-        stringOps::trim(key);
+AppSettingsLoader::AppSettingsLoader(const std::string& fileName) : _fileName(fileName) {}
 
-        std::string value = line.substr(pos + 1);
-        stringOps::trim(value);
-
-        _settings[key] = value;
+AppSettings AppSettingsLoader::loadSettings() {
+    std::ifstream file(_fileName);
+    if (!file.is_open()) {
+        throw std::runtime_error("Could not open settings file: " + _fileName);
     }
-    delete fileIn;
+    std::string jsonContent((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+    json::value jsonValue = json::parse(jsonContent);
+    return AppSettings::fromJson(jsonValue.as_object());
 }
-
-std::string SettingsManager::getSetting(const std::string& key) {
-    return _settings[key];
-}
-
-void SettingsManager::setSetting(const std::string& key, const std::string& value) {
-    _settings[key] = value;
-
-    IOutputStream* fileOut = new FileOutput(_fileName, true);
-    for (const auto& setting : _settings) {
-        fileOut->writeLine(setting.first + ": " + setting.second);
-    }
-}
-

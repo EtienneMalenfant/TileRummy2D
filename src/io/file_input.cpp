@@ -2,7 +2,7 @@
 #include <settings/paths.h>
 
 FileInput::FileInput(const std::string& path) {
-    file = std::ifstream(settings::dataRoot + path);
+    file = std::ifstream(paths::dataRoot + path);
 }
 
 FileInput::~FileInput() {

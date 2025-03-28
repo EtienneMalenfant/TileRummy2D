@@ -4,7 +4,7 @@
 using namespace gui;
 
 std::string FontLoader::getFontPath(Font font) {
-    std::string path = settings::dataRoot + "fonts/";
+    std::string path = paths::dataRoot + "fonts/";
     switch (font) {
         case Font::Inconsolata:
             return path + "Inconsolata-Regular.ttf";

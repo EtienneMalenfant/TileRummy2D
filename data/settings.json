@@ -1,0 +1,10 @@
+{
+    "showFps": true,
+    "playerName": "Joueur",
+    "botNames": [
+        "ALice",
+        "Bob",
+        "Charlie"
+    ],
+    "botCount": 3 // [1, 3]
+}
