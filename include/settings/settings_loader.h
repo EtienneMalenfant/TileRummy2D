@@ -1,21 +1,34 @@
 #pragma once
 #include <string>
-#include <io/i_output_stream.h>
+#include <fstream>
 #include <settings/app_settings.h>
+#include <settings/game_settings.h>
 
-class IAppSettingLoader {
+template <typename T>
+class ISettingsLoader {
 public:
-    virtual ~IAppSettingLoader() = default;
-
-    virtual AppSettings loadSettings() = 0;
+    virtual T loadSettings() = 0;
+    virtual ~ISettingsLoader() = default;
 };
 
-class AppSettingsLoader : public IAppSettingLoader {
-private:
-    const std::string _fileName;
+template <typename T>
+class BaseSettingsLoader : ISettingsLoader<T> {
+protected:
+    std::ifstream _file;
+public:
+    BaseSettingsLoader(const std::string& fileName);
+    ~BaseSettingsLoader();
+    boost::json::value getJsonContent();
+};
 
-
+class AppSettingsLoader : public BaseSettingsLoader<AppSettings> {
 public:
     AppSettingsLoader(const std::string& fileName);
     AppSettings loadSettings() override;
+};
+
+class GameSettingsLoader : public BaseSettingsLoader<GameSettings> {
+public:
+    GameSettingsLoader(const std::string& fileName);
+    GameSettings loadSettings() override;
 };
