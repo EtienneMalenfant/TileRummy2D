@@ -61,7 +61,7 @@ void PlayerTilesContainer::addNewTiles(const std::list<const Tile*>* playerTiles
 
 void PlayerTilesContainer::removePlacedTiles(const std::list<const Tile*>* playerTiles) {
     // on passe sur chaque tuiles de la grille
-    for (int i = 0; i < _lastTileIndex; i++) {
+    for (int i = 0; i <= _lastTileIndex; i++) {
         int row = i / _nbCol;
         int col = i % _nbCol;
         Tile2D* tile2d = _tiles[row][col];
