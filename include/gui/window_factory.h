@@ -4,6 +4,7 @@
 #include <gui/game_event_handler.h>
 #include <gui/components/app_root_component.h>
 #include <game/game_dependencies.h>
+#include <settings/app_settings.h>
 
 namespace gui {
 
@@ -16,6 +17,7 @@ namespace gui {
     class WindowFactory : public IWindowFactory {
     private:
         GameDependencies* _dependencies;
+        const AppSettings* _appSettings;
         IWindowSettings* _settings;
 
         IComponentBuilder* _gameZoneBuilder;
@@ -32,7 +34,7 @@ namespace gui {
         void configWindowEventHandler(sf::RenderWindow* renderWindow);
         sf::Drawable* buildAppRoot();
     public:
-        WindowFactory(IWindowSettings* settings, GameDependencies* dependencies, IGameEventHandler* gameEventHandler);
+        WindowFactory(GameDependencies* dependencies, IGameEventHandler* gameEventHandler, IWindowSettings* winSettings, const AppSettings* appSettings);
         ~WindowFactory() override;
         IWindow* createWindow() override;
     };

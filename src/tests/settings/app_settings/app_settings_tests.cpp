@@ -9,13 +9,13 @@ namespace SettingsTest {
     void getAppSettingsFromFullJsonFile() {
         AppSettingsLoader settingsLoader(mockSettingsDir + "app_settings/full_settings.json");
         AppSettings settings = settingsLoader.loadSettings();
-        Test::validate(settings.showFPS == true, __func__);
+        Test::validate(settings.showFps == true, __func__);
     }
 
     void getAppSettingsFromEmptyJsonFile() {
         AppSettingsLoader settingsLoader(mockSettingsDir + "empty_settings.json");
         AppSettings settings = settingsLoader.loadSettings();
-        Test::validate(settings.showFPS == false, __func__);
+        Test::validate(settings.showFps == false, __func__);
     }
 
     void runAppSettingsTests() {

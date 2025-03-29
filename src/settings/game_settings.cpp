@@ -16,7 +16,7 @@ GameSettings GameSettings::fromJson(const boost::json::object& json) {
     }
 
     return GameSettings {
-        playerName: json.if_contains("playerName") ? json.at("playerName").as_string().c_str() : "Player",
+        playerName: json.if_contains("playerName") ? json.at("playerName").as_string().c_str() : "",
         botNames: botNamesStrings,
         botCount: botCount
     };

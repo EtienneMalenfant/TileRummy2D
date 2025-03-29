@@ -12,7 +12,7 @@ public:
 };
 
 template <typename T>
-class BaseSettingsLoader : ISettingsLoader<T> {
+class BaseSettingsLoader : public ISettingsLoader<T> {
 protected:
     std::ifstream _file;
 public:

@@ -2,6 +2,7 @@
 #include <game/game_dependencies.h>
 #include <gui/window_factory.h>
 #include <gui/player_controls_proxy.h>
+#include <settings/app_settings.h>
 
 namespace gui {
 
@@ -21,8 +22,9 @@ namespace gui {
         IGameEventHandler* _gameEventHandler;
         IWindow* _window;
         PlayerControlsProxy* _playerControlsProxy {nullptr}; // pour set le logger
+        const AppSettings* _appSettings;
     public:
-        WindowGameInterface(GameDependencies* dependencies);
+        WindowGameInterface(GameDependencies* dependencies, const AppSettings& appSettings);
         IGameEventListener* getEventListener() const override;
         void start() override;
         bool isRunning() const override;

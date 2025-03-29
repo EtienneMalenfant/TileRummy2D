@@ -6,12 +6,23 @@
 #include <gui/game_interface.h>
 #include <console_logger.h>
 #include <tests/test.h>
+#include <settings/settings_loader.h>
+#include <settings/paths.h>
 
 int main(int argc, char** argv) {
 
     #ifdef DEBUG
         test::runTests();
     #endif
+
+    // Charger les settings
+    ISettingsLoader<AppSettings>* appSettingsLoader = new AppSettingsLoader(paths::dataRoot + "app_settings.json");
+    AppSettings appSettings = appSettingsLoader->loadSettings();
+    delete appSettingsLoader;
+
+    ISettingsLoader<GameSettings>* gameSettingsLoader = new GameSettingsLoader(paths::dataRoot + "game_settings.json");
+    GameSettings gameSettings = gameSettingsLoader->loadSettings();
+    delete gameSettingsLoader;
 
     // Créer le jeu
     IGameBuilder* gameBuilder = new RummyGameBuilder(2);
@@ -25,10 +36,13 @@ int main(int argc, char** argv) {
         gameBuilder->setStockSeed(std::stoul(argv[2]));
     }
 
-    gameBuilder->addBot("Alice");
-    gameBuilder->addBot("Bob");
-    gameBuilder->addBot("Charlie");
-    gameBuilder->addPlayer("Utilisateur");
+    // Ajouter les joueurs
+    for (int i = 0; i < gameSettings.botCount; i++) {
+        gameBuilder->addBot(gameSettings.botNames[i]);
+    }
+    if (!gameSettings.playerName.empty()) {
+        gameBuilder->addPlayer(gameSettings.playerName);
+    }
 
     IGame* game = gameBuilder->getGame();
     GameDependencies* dependencies = gameBuilder->getDependencies();
@@ -40,8 +54,7 @@ int main(int argc, char** argv) {
     }
 
     // Abonner les output du jeu
-    gui::IGameInterface* gameInterface = new gui::WindowGameInterface(dependencies);
-    dependencies->eventPublisher->subscribe(new ConsoleGameEventListener());
+    gui::IGameInterface* gameInterface = new gui::WindowGameInterface(dependencies, appSettings);
     dependencies->eventPublisher->subscribe(gameInterface->getEventListener());
 
     // Lancer le jeu et la fenêtre

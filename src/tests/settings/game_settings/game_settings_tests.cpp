@@ -28,6 +28,7 @@ namespace SettingsTest {
     void getGameSettingsWithOneBot() {
         GameSettingsLoader settingsLoader(mockSettingsDir + "game_settings/one_bot_settings.json");
         GameSettings settings = settingsLoader.loadSettings();;
+        Test::validate(settings.playerName.empty(), __func__);
         Test::validate(settings.botCount == 1, __func__);
         Test::validate(settings.botNames[0] == "Bot", __func__);
     }
@@ -35,7 +36,7 @@ namespace SettingsTest {
     void getGameSettingsFromEmptyJsonFile() {
         GameSettingsLoader settingsLoader(mockSettingsDir + "empty_settings.json");
         GameSettings settings = settingsLoader.loadSettings();
-        Test::validate(settings.playerName == "Player", __func__);
+        Test::validate(settings.playerName.empty(), __func__);
         Test::validate(settings.botCount == 3, __func__);
         Test::validate(settings.botNames[0] == "Alice", __func__);
         Test::validate(settings.botNames[1] == "Bob", __func__);

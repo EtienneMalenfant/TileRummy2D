@@ -7,8 +7,9 @@
 
 using namespace gui;
 
-WindowFactory::WindowFactory(IWindowSettings* settings, GameDependencies* dependencies, IGameEventHandler* gameEventHandler) 
-    : _settings(settings), _dependencies(dependencies) 
+WindowFactory::WindowFactory(GameDependencies* dependencies, IGameEventHandler* gameEventHandler,
+    IWindowSettings* settings, const AppSettings* appSettings)
+    : _settings(settings), _dependencies(dependencies), _appSettings(appSettings)
 {
     _eventPublisher = new WindowEventPublisher();
     _gameZoneBuilder = new GameZoneContainerBuilder(dependencies, gameEventHandler, _eventPublisher, HEIGHT_SEPARATION_RATIO);
@@ -31,7 +32,7 @@ IWindow* WindowFactory::createWindow() {
 
     organizeComponentsSize();
     configWindowEventHandler(renderWindow);
-    
+
     sf::Drawable* rootObj = buildAppRoot();
     return new Window(renderWindow, rootObj, _eventPublisher);
 }
@@ -44,7 +45,7 @@ void WindowFactory::organizeComponentsSize() {
 
     _gameZoneBuilder->setEmplacement(sf::FloatRect(0, 0, xSeparation, _settings->getYRes()));
     _gameInfosBuilder->setEmplacement(sf::FloatRect(xSeparation, 0, _settings->getXRes() - xSeparation, ySeparation));
-    _gameControlsBuilder->setEmplacement(sf::FloatRect(xSeparation, ySeparation, _settings->getXRes() - xSeparation, 
+    _gameControlsBuilder->setEmplacement(sf::FloatRect(xSeparation, ySeparation, _settings->getXRes() - xSeparation,
         _settings->getYRes() - ySeparation));
 }
 
@@ -70,6 +71,8 @@ sf::Drawable* WindowFactory::buildAppRoot() {
     components->push_back( _gameZoneBuilder->getDrawable());
     components->push_back( _gameInfosBuilder->getDrawable());
     components->push_back( _gameControlsBuilder->getDrawable());
-    components->push_back( new FpsCounter());
+    if (_appSettings->showFps) {
+        components->push_back( new FpsCounter());
+    }
     return new AppRootComponent(components);
 }
