@@ -14,6 +14,9 @@ PlayerManager::~PlayerManager() {
     for (Tile* tile : _tiles) {
         delete tile;
     }
+    for (Tile* tile : _standbyTiles) {
+        delete tile;
+    }
 }
 
 // ------------------------------

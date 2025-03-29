@@ -59,6 +59,7 @@ std::vector<ITileNode*>* MeldBuilder::getSequenceExtensions(ITileNode* node, Val
             }
         }
     }
+    delete iterator;
     return sequenceExtension;
 }
 

@@ -1,4 +1,5 @@
 #include <gui/window_factory.h>
+
 #include <gui/main_zone_components/game_zone_builder.h>
 #include <gui/info_zone_components/info_zone_builder.h>
 #include <gui/controls_zone_components/controls_zone_builder.h>
@@ -21,6 +22,7 @@ WindowFactory::~WindowFactory() {
     delete _gameZoneBuilder;
     delete _gameInfosBuilder;
     delete _gameControlsBuilder;
+    delete _eventPublisher;
 }
 
 IWindow* WindowFactory::createWindow() {

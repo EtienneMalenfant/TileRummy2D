@@ -8,6 +8,12 @@ SmartInsertionsAnalyser::SmartInsertionsAnalyser(IMeldsContainer* meldsContainer
     _meldBuilder = new MeldBuilder();
 }
 
+SmartInsertionsAnalyser::~SmartInsertionsAnalyser() {
+    delete _tileWrapperManager;
+    delete _tileGraph;
+    delete _meldBuilder;
+}
+
 std::list<std::list<Action*>*>* SmartInsertionsAnalyser::getActionsSequences(const std::list<const Tile*>* playerTiles, bool useJoker) {
     _tileWrapperManager->refresh(playerTiles);
     _tileGraph->build(_tileWrapperManager);

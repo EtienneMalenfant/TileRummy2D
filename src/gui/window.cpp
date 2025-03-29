@@ -1,4 +1,4 @@
-#include <gui/window.h> 
+#include <gui/window.h>
 
 using namespace gui;
 
@@ -7,6 +7,7 @@ Window::Window(sf::RenderWindow* window,sf::Drawable* rootObj, IWindowEventsPubl
 
 gui::Window::~Window() {
     delete _window;
+    delete _app;
 }
 
 bool gui::Window::isOpen() const {
@@ -27,11 +28,11 @@ void Window::mapCoord(sf::Event& event) {
     } else if (event.type == sf::Event::MouseMoved) {
         sf::Vector2i mousePos(sf::Mouse::getPosition(*_window));
         sf::Vector2f viewCoord = _window->mapPixelToCoords(mousePos);
-        
+
         event.mouseMove.x = viewCoord.x;
         event.mouseMove.y = viewCoord.y;
     }
-    
+
 }
 
 void gui::Window::handleEvents() {

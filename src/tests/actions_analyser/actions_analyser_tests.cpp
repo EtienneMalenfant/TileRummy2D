@@ -53,6 +53,7 @@ namespace ActionsAnalyserTest {
         int longuestMeld = 0;
         for (auto meldActions : *newMeldsActions) {
             longuestMeld = std::max(longuestMeld, (int)meldActions->size());
+            delete meldActions;
         }
         Test::validate(longuestMeld == 5, __func__);
 

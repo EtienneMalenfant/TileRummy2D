@@ -10,7 +10,7 @@ namespace bot {
         IMeldBuilder* _meldBuilder;
     public:
         SmartInsertionsAnalyser(IMeldsContainer* meldContainer);
-        ~SmartInsertionsAnalyser() override = default;
+        ~SmartInsertionsAnalyser() override;
         std::list<std::list<Action*>*>* getActionsSequences(const std::list<const Tile*>* playerTiles, bool useJoker) override;
     };
 };

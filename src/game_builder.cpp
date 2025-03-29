@@ -49,13 +49,16 @@ void RummyGameBuilder::initActionsAnalyser() {
 void RummyGameBuilder::deleteObjects() {
     delete _eventPublisher;
     delete _meldsContainer;
+    delete _stock;
+    delete _actionsAnalyser;
+    delete _logger;
     for (IPlayer* player : *_players) {
         delete player;
     }
     delete _players;
-    delete _stock;
-    delete _actionsAnalyser;
-    delete _logger;
+    for (int i = 0; i < 4; i++) {
+        delete _botPlayer[i];
+    }
 }
 
 void RummyGameBuilder::setNullPointers() {
