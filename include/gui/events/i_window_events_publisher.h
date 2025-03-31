@@ -14,10 +14,10 @@ namespace gui {
 
     class WindowEventPublisher : public IWindowEventsPublisher {
     private :
-        std::vector<IWindowEventHandler*> listeners [sf::Event::Count];
+        std::vector<IWindowEventHandler*> _listeners [sf::Event::Count];
     public:
         WindowEventPublisher() = default;
-        ~WindowEventPublisher() override = default;
+        ~WindowEventPublisher() override;
         void notify(const sf::Event& event) override;
         void subscribe(sf::Event::EventType type, IWindowEventHandler* listener) override;
     };

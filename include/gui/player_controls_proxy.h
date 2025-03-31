@@ -22,8 +22,8 @@ namespace gui {
 
     public:
         PlayerControlsProxy(IGameEventListener* eventListener, IPlayerController* controller, const std::string& userName, IUpdateable* rootUpdateable);
-        ~PlayerControlsProxy() = default;
-
+        ~PlayerControlsProxy() override;
+        
         void setGameLogger(ILogger* logger);
         // IGameEventListener
         void update(ptr<IEvent> event) override;

@@ -29,19 +29,20 @@ void RummyGameBuilder::init() {
     _meldsManager = new MeldsManagerLogger(meldsManagerClass, _logger);
     _players = new std::vector<IPlayer*>();
     _stock = new TileStock(_logger);
+    _newMeldsAnalyser = new bot::NewMeldsAnalyser();
     initActionsAnalyser();
 }
 
 void RummyGameBuilder::initActionsAnalyser() {
     switch (_difficultyLevel) {
         case 1:
-            _actionsAnalyser = new bot::DumbActionsAnalyser(_meldsContainer);
+            _insertionsAnalyser = new bot::DumbActionsAnalyser(_meldsContainer);
             break;
         case 2:
-            _actionsAnalyser = new bot::SmartInsertionsAnalyser(_meldsContainer);
+            _insertionsAnalyser = new bot::SmartInsertionsAnalyser(_meldsContainer);
             break;
         default:
-            _actionsAnalyser = new bot::SmartInsertionsAnalyser(_meldsContainer);
+            _insertionsAnalyser = new bot::SmartInsertionsAnalyser(_meldsContainer);
             break;
     }
 }
@@ -50,11 +51,9 @@ void RummyGameBuilder::deleteObjects() {
     delete _eventPublisher;
     delete _meldsContainer;
     delete _stock;
-    delete _actionsAnalyser;
+    delete _insertionsAnalyser;
+    delete _newMeldsAnalyser;
     delete _logger;
-    for (IPlayer* player : *_players) {
-        delete player;
-    }
     delete _players;
     for (int i = 0; i < 4; i++) {
         delete _botPlayer[i];
@@ -68,7 +67,8 @@ void RummyGameBuilder::setNullPointers() {
     _guiPlayer = nullptr;
     _players = nullptr;
     _stock = nullptr;
-    _actionsAnalyser = nullptr;
+    _insertionsAnalyser = nullptr;
+    _newMeldsAnalyser = nullptr;
     _logger = nullptr;
     for (int i = 0; i < 4; i++) {
         _botPlayer[i] = nullptr;
@@ -78,7 +78,7 @@ void RummyGameBuilder::setNullPointers() {
 bool RummyGameBuilder::dependenciesAreSet() {
     // Vérifier qu'il n'y a rien a nullptr
     return _eventPublisher != nullptr && _meldsContainer != nullptr && _meldsManager != nullptr
-        && _actionsAnalyser != nullptr && _players != nullptr;
+        && _insertionsAnalyser != nullptr && _newMeldsAnalyser != nullptr && _players != nullptr;
 }
 
 bool RummyGameBuilder::gameIsValid() {
@@ -99,13 +99,13 @@ void RummyGameBuilder::addBot(const std::string& name) {
     PlayerManager* currentPlayer = new PlayerManager(_stock, _meldsManager, _eventPublisher, name);
     IPlayerController* controller = new PlayerFirstMeldHandler(currentPlayer, currentPlayer);
     controller = new PlayerControllerLogger(controller, _logger);
+    // ajout dans la liste des joueurs
+    _players->push_back(currentPlayer);
 
-    bot::BotPlayer* botPlayer = new bot::BotPlayer(controller, currentPlayer, _actionsAnalyser);
+    bot::BotPlayer* botPlayer = new bot::BotPlayer(controller, currentPlayer, _insertionsAnalyser, _newMeldsAnalyser);
     // garger le IBotPlayer
     _botPlayer[_players->size()] = botPlayer;
     botPlayer->setWaitTime(_waitTime);
-    // ajout dans la liste des joueurs
-    _players->push_back(currentPlayer);
     // pour recevoir les event de tours
     _eventPublisher->subscribe(botPlayer);
 

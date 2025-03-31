@@ -11,12 +11,12 @@ GameZoneContainerBuilder::GameZoneContainerBuilder(GameDependencies* dependencie
     IWindowEventsPublisher* eventsPublisher,  float mainZoneHeightRatio)
     : _mainZoneHeightRatio(mainZoneHeightRatio)
 {
-    sf::Font* font = FontLoader::loadFont(Font::Inter);
+    _font = FontLoader::loadFont(Font::Inter);
     const TileInfo* tileInfo = new TileInfo {
         sf::Color(240, 196, 79),
         40,
         60,
-        font
+        _font
     };
     ITileFactory* tileFactory = new TileFactory(tileInfo);
 
@@ -44,7 +44,9 @@ GameZoneContainerBuilder::GameZoneContainerBuilder(GameDependencies* dependencie
 
 GameZoneContainerBuilder::~GameZoneContainerBuilder() {
     delete _gameZoneContainer;
-    // TODO delete _handler;
+    delete _meldsContainer;
+    delete _playerTilesContainer;
+    delete _font;
 }
 
 void GameZoneContainerBuilder::setEmplacement(const sf::FloatRect& emplacement) {

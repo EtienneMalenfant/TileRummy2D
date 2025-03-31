@@ -25,6 +25,7 @@ namespace gui {
         const AppSettings* _appSettings;
     public:
         WindowGameInterface(GameDependencies* dependencies, const AppSettings& appSettings);
+        ~WindowGameInterface() override;
         IGameEventListener* getEventListener() const override;
         void start() override;
         bool isRunning() const override;

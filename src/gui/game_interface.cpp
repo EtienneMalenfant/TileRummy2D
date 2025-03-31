@@ -16,11 +16,15 @@ WindowGameInterface::WindowGameInterface(GameDependencies* dependencies, const A
         _gameEventListener = eventsListenerHandler;
     }
 
-    _gameEventHandler = eventsListenerHandler
-    ;
+    _gameEventHandler = eventsListenerHandler;
     // pour ajouter mon proxy dans IPlayerController
     _dependencies = new GameDependencies(dependencies->eventPublisher, dependencies->meldsContainer, _playerControlsProxy,
         dependencies->currentPlayer, dependencies->players);
+}
+
+WindowGameInterface::~WindowGameInterface() {
+    delete _window;
+    delete _gameEventListener;
 }
 
 IGameEventListener* WindowGameInterface::getEventListener() const {

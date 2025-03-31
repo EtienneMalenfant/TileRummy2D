@@ -6,15 +6,16 @@
 #include <game/game_dependencies.h>
 
 namespace gui {
-    class GameZoneContainerBuilder : public IComponentBuilder { 
+    class GameZoneContainerBuilder : public IComponentBuilder {
     private:
         Container* _gameZoneContainer;
         Container* _meldsContainer;
         Container* _playerTilesContainer;
         const float _mainZoneHeightRatio;
+        const sf::Font* _font;
 
     public:
-        GameZoneContainerBuilder(GameDependencies* dependencies, IGameEventHandler* eventHandler, 
+        GameZoneContainerBuilder(GameDependencies* dependencies, IGameEventHandler* eventHandler,
             IWindowEventsPublisher* eventsPublisher, float mainZoneHeightRatio);
         ~GameZoneContainerBuilder() override;
         void setEmplacement(const sf::FloatRect& emplacement) override;

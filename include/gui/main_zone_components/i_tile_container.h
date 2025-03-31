@@ -23,5 +23,7 @@ namespace gui {
     class BaseTileContainer : public ITileContainer {
     protected:
         static Tile2D* tilesById[Tile::MAX_TILE_ID];
+
+        virtual ~BaseTileContainer() override;
     };
 }

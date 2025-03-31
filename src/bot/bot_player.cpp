@@ -5,14 +5,11 @@
 
 using namespace bot;
 
-BotPlayer::BotPlayer(IPlayerController* controller, IPlayer* player, IActionsAnalyser* insertionsAnalyser)
-    : _controller(controller), _player(player), _insertionsAnalyser(insertionsAnalyser)
-{
-    _newMeldsAnalyser = new NewMeldsAnalyser();
-}
+BotPlayer::BotPlayer(IPlayerController* controller, IPlayer* player, IActionsAnalyser* insertionsAnalyser, IActionsAnalyser* newMeldsAnalyser)
+    : _controller(controller), _player(player), _insertionsAnalyser(insertionsAnalyser), _newMeldsAnalyser(newMeldsAnalyser) {}
 
 BotPlayer::~BotPlayer() {
-    // We don't delete _controller and _player because they will be deleted by the game builder
+    delete _controller;
     deleteAndClearNewMelds();
 }
 
@@ -61,12 +58,12 @@ void BotPlayer::playActionList(std::list<Action*>* actionList) {
     for (Action* action : *actionList) {
         _controller->addAction(action);
     }
-    delete actionList;
 }
 
 bool BotPlayer::playAllNewMelds() {
     for (std::list<Action*>* newMeldPlacement : *_newMelds) {
         playActionList(newMeldPlacement);
+        delete newMeldPlacement;
         newMeldPlacement = nullptr;
     }
     if (_controller->commitActions()) {
@@ -76,6 +73,8 @@ bool BotPlayer::playAllNewMelds() {
     }
     else {
         _controller->cancelActions();
+        delete _newMelds;
+        _newMelds = nullptr;
     }
     return false;
 }
@@ -105,7 +104,6 @@ bool BotPlayer::playInsertions() {
 
     bool hasPlayed = false;
     for (auto insertion : *insertionsList) {
-
         for (Action* action : *insertion) {
             bool hasAddedAction = _controller->addAction(action);
             if (hasAddedAction == false) {
@@ -130,8 +128,10 @@ bool BotPlayer::playSomething() {
     // sinon jouer un nouveau meld si possible
     if (hasPlayed == false) {
         if (_newMelds->size() > 0) {
-            playActionList(_newMelds->front());
+            auto actionList = _newMelds->front();
+            playActionList(actionList);
             _newMelds->pop_front();
+            delete actionList;
             true;
         }
     }

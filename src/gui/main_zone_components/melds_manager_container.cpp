@@ -12,11 +12,11 @@ MeldsManagerContainer::MeldsManagerContainer(ITileFactory* tileFactory, const IM
 
 MeldsManagerContainer::~MeldsManagerContainer() {
     for (ITileContainer* meldContainer : _meldsById) {
-        delete meldContainer;\
+        delete meldContainer;
         meldContainer = nullptr;
     }
     for (int i = 0; i < _rowCapacity; i++) {
-        delete[] _meldsIdMap[i];
+        delete _meldsIdMap[i];
     }
     delete[] _meldsIdMap;
 }

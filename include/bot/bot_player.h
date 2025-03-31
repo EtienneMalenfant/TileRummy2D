@@ -33,7 +33,7 @@ namespace bot {
         bool playSomething();
         bool playInsertions();
         public:
-        BotPlayer(IPlayerController* controller, IPlayer* player, IActionsAnalyser* actionsAnalyser);
+        BotPlayer(IPlayerController* controller, IPlayer* player, IActionsAnalyser* insertionsAnalyser, IActionsAnalyser* newMeldsAnalyser);
         ~BotPlayer() override;
 
         void update(ptr<IEvent> event) override;

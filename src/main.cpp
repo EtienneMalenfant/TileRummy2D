@@ -65,7 +65,7 @@ int main(int argc, char** argv) {
     }
     gameThread.detach(); // tuer le thread si la fenêtre est fermée
 
-    delete gameInterface;
+    delete gameInterface; // l'ordre de delete est important
     delete gameBuilder;
     return 0;
 }
