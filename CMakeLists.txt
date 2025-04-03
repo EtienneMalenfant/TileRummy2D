@@ -23,19 +23,21 @@ target_compile_options(TileRummy2D PRIVATE
 
 target_include_directories( TileRummy2D PRIVATE
     ${PROJECT_SOURCE_DIR}/include
-    ${PROJECT_SOURCE_DIR}/lib
-    ${Boost_INCLUDE_DIRS}
 )
 
 # Release or Debug configs
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -g")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address")
-    add_compile_definitions(DEBUG)
-else()
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+    message("-- Release build")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -DNDEBUG")  # Enable optimizations and disable assertions
     add_compile_definitions(RELEASE)
+else()
+    message("-- Debug build")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -g")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_CXX_LINKER_FLAGS} -fsanitize=address")
+
+    add_compile_definitions(DEBUG)
 endif()
+
 
 # Dependencies
 target_link_libraries(TileRummy2D PRIVATE

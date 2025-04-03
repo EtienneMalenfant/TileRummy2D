@@ -18,14 +18,17 @@ namespace gui {
     class Tile2D : public Container {
     private:
         const Tile* const _tile; // game/tile.h
+#ifdef DEBUG
+    sf::Text _id;
+#endif
 
-    protected:
-        sf::Text _id; // ! debug only
     public:
         Tile2D(const Tile* const tile, const TileInfo& tileInfo);
         ~Tile2D() override;
         const Tile* getTileData() const;
-        virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const = 0;
+        virtual void setPosition(float x, float y);
+        virtual void setPosition(const sf::Vector2f& position);
+        virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
     };
 
     class NumberTile : public Tile2D {
@@ -40,7 +43,7 @@ namespace gui {
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
     };
 
-    class JokerTile : public Tile2D { 
+    class JokerTile : public Tile2D {
     private:
         sf::Text _jokerSign; // Pourrait etre un dessin dans le future
     public:

@@ -29,8 +29,7 @@ IWindow* WindowFactory::createWindow() {
     unsigned int style = getWindowStyle();
     sf::RenderWindow* renderWindow = new sf::RenderWindow(sf::VideoMode(_settings->getBaseWindowWidth(), _settings->getBaseWindowHeight()),
          _settings->getTitle(), style);
-    sf::View* view = new sf::View(sf::FloatRect(0, 0, _settings->getBaseWindowWidth(), _settings->getBaseWindowWidth()));
-    renderWindow->setView(*view);
+    renderWindow->setView(sf::View(sf::FloatRect(0, 0, _settings->getBaseWindowWidth(), _settings->getBaseWindowWidth())));
 
     organizeComponentsSize();
     configWindowEventHandler(renderWindow);
