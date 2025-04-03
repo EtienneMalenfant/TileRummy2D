@@ -10,7 +10,7 @@ namespace gui {
     class TextLoggerComponent : public Container, public ILogger {
     private:
         boost::circular_buffer<sf::Text*> _logs;
-        
+
         sf::Font* _font;
         u_int _capacity = 10;
         const u_int _fontSize = 16;
@@ -22,6 +22,7 @@ namespace gui {
         void addLog(sf::Text* log);
     public:
         TextLoggerComponent(sf::Font* font);
+        ~TextLoggerComponent() override;
         void setSize(const sf::Vector2f& size) override;
         void setPosition(float x, float y) override;
         void setPosition(const sf::Vector2f& position) override;

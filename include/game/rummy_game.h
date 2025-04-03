@@ -17,7 +17,6 @@ private:
     bool isOver();
 public:
     RummyGame(std::vector<IPlayer*>* players, IGameEventPublisher* publisher);
-    ~RummyGame();
     void start() override;
     void update(ptr<IEvent> event) override;
 };

@@ -7,16 +7,15 @@
 using namespace gui;
 
 InfoZoneBuilder::InfoZoneBuilder(const std::vector<IPlayer*>* const players, IGameEventHandler* const gameEventHandler)
+: _font(FontLoader::loadFont(Font::Inconsolata))
 {
-    sf::Font* font = FontLoader::loadFont(Font::Inconsolata);
-
     // Création du logger
-    TextLoggerComponent* textLoggerComponent = new TextLoggerComponent(font);
+    TextLoggerComponent* textLoggerComponent = new TextLoggerComponent(_font);
     gameEventHandler->addLogger(textLoggerComponent); // il implémente ILogger
     Container* gameLogsComponent = textLoggerComponent;
 
     // Création des infos des joueurs
-    PlayersInfoComponent* playerInfosComponent = new PlayersInfoComponent(players, font);
+    PlayersInfoComponent* playerInfosComponent = new PlayersInfoComponent(players, _font);
     Container* infosContainer = playerInfosComponent;
     gameEventHandler->addUpdeatable(playerInfosComponent); // il implémente IUpdateable
 
@@ -26,6 +25,7 @@ InfoZoneBuilder::InfoZoneBuilder(const std::vector<IPlayer*>* const players, IGa
 }
 
 InfoZoneBuilder::~InfoZoneBuilder() {
+    delete _font;
     delete _infosContainer;
 }
 

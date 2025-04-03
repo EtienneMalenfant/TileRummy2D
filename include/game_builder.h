@@ -23,7 +23,7 @@ class RummyGameBuilder : public IGameBuilder {
 private:
 
     unsigned int _waitTime {400};
-    ILogger* _logger;
+    ILogger* _logger {};
     IGameEventPublisher* _eventPublisher {};
     IMeldsContainer* _meldsContainer {};
     IMeldsManager* _meldsManager {};
@@ -37,6 +37,9 @@ private:
     bot::IActionsAnalyser* _insertionsAnalyser {};
     bot::IActionsAnalyser* _newMeldsAnalyser {};
     int _difficultyLevel {1};
+
+    IGame* _game {};
+    GameDependencies* _dependencies {};
 
     void init();
     void initActionsAnalyser();

@@ -64,14 +64,15 @@ std::vector<ITileNode*>* MeldBuilder::getSequenceExtensions(ITileNode* node, Val
 }
 
 std::vector<ITileNode*>* MeldBuilder::getOrphansFromRemoval(ITileNode* node, MeldType meldType) {
-    Iterator<ITileNode*>* iterator = node->getMeldIterator();
     std::vector<ITileNode*>* orphans = new std::vector<ITileNode*>();
     if (node->getMeldTileCount() == 1) {
         return orphans;
     }
+    Iterator<ITileNode*>* iterator = node->getMeldIterator();
     // - Les Sets -
-    else if (meldType == MeldType::SET) {
+    if (meldType == MeldType::SET) {
         if (node->getMeldTileCount() == 4) {
+            delete iterator;
             return orphans; // rien à retourner, le set reste valide
         }
         while (iterator->hasNext()) {
@@ -87,6 +88,7 @@ std::vector<ITileNode*>* MeldBuilder::getOrphansFromRemoval(ITileNode* node, Mel
         int higherCount = node->getMeldTileCount(MeldDirection::Next);
         // s'il reste 3 tuiles d'un bord et 0 de l'autre
         if ((lowerCount == 0 && higherCount >= 3) || (higherCount == 0 && lowerCount >= 3)) {
+            delete iterator;
             return orphans;
         }
         // les tuiles en bas sont ajoutées s'il y en a moins que 3

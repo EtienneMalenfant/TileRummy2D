@@ -58,6 +58,8 @@ void RummyGameBuilder::deleteObjects() {
     for (int i = 0; i < 4; i++) {
         delete _botPlayer[i];
     }
+    delete _game;
+    delete _dependencies;
 }
 
 void RummyGameBuilder::setNullPointers() {
@@ -70,9 +72,12 @@ void RummyGameBuilder::setNullPointers() {
     _insertionsAnalyser = nullptr;
     _newMeldsAnalyser = nullptr;
     _logger = nullptr;
+    _guiPlayerController = nullptr;
     for (int i = 0; i < 4; i++) {
         _botPlayer[i] = nullptr;
     }
+    _game = nullptr;
+    _dependencies = nullptr;
 }
 
 bool RummyGameBuilder::dependenciesAreSet() {
@@ -141,16 +146,22 @@ void RummyGameBuilder::setBotWaitTime(unsigned int time) {
 
 IGame* RummyGameBuilder::getGame() {
     if (gameIsValid()) {
-        RummyGame* game = new RummyGame(_players, _eventPublisher);
-        _eventPublisher->subscribe(game);
-        return game;
+        if (_game == nullptr) {
+            RummyGame* game = new RummyGame(_players, _eventPublisher);
+            _game = game;
+            _eventPublisher->subscribe(game);
+        }
+        return _game;
     }
     return nullptr;
 }
 
 GameDependencies* RummyGameBuilder::getDependencies() {
     if (gameIsValid()) {
-        return new GameDependencies(_eventPublisher, _meldsContainer, _guiPlayerController, _guiPlayer, _players);
+        if (_dependencies == nullptr) {
+            _dependencies = new GameDependencies(_eventPublisher, _meldsContainer, _guiPlayerController, _guiPlayer, _players);
+        }
+        return _dependencies;
     }
     return nullptr;
 }

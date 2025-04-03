@@ -10,9 +10,6 @@ MeldContainer::MeldContainer(const IMeld* meld, ITileFactory* tileFactory, IPlay
     updateContainerSize();
 }
 
-MeldContainer::~MeldContainer() {
-}
-
 IPlayerController* MeldContainer::_playerController = nullptr;
 
 // ------------------------------
