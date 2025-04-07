@@ -25,6 +25,9 @@ WindowGameInterface::WindowGameInterface(GameDependencies* dependencies, const A
 WindowGameInterface::~WindowGameInterface() {
     delete _window;
     delete _gameEventListener;
+    delete _windowFactory;
+    delete _windowSettings;
+    delete _dependencies;
 }
 
 IGameEventListener* WindowGameInterface::getEventListener() const {
@@ -33,9 +36,9 @@ IGameEventListener* WindowGameInterface::getEventListener() const {
 
 void WindowGameInterface::start() {
     // Créer la fenêtre
-    IWindowSettings* windowSettings = new WindowSettings(1600, 900, true, false, "Rummy");
-    IWindowFactory* windowFactory = new WindowFactory(_dependencies, _gameEventHandler, windowSettings, _appSettings);
-    _window = windowFactory->createWindow();
+    _windowSettings = new WindowSettings(1600, 900, true, false, "Rummy");
+    _windowFactory = new WindowFactory(_dependencies, _gameEventHandler, _windowSettings, _appSettings);
+    _window = _windowFactory->createWindow();
 
     if (_playerControlsProxy != nullptr) {
         _playerControlsProxy->setGameLogger(_gameEventHandler->getLogger());

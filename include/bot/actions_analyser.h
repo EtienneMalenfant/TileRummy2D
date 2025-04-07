@@ -25,7 +25,6 @@ namespace bot {
         void emptyJokers();
     public:
         BaseActionsAnalyser() = default;
-        ~BaseActionsAnalyser() override = default;
     };
 
     class NewMeldsAnalyser : public BaseActionsAnalyser {
@@ -36,7 +35,6 @@ namespace bot {
 
     public:
         NewMeldsAnalyser() = default;
-        ~NewMeldsAnalyser() override = default;
         std::list<std::list<Action*>*>* getActionsSequences(const std::list<const Tile*>* playerTiles, bool useJoker = true) override;
 
     };
@@ -56,7 +54,6 @@ namespace bot {
         void reset();
     public:
         DumbActionsAnalyser(IMeldsContainer* meldsContainer);
-        ~DumbActionsAnalyser() override = default;
         std::list<std::list<Action*>*>* getActionsSequences(const std::list<const Tile*>* playerTiles, bool useJoker = true) override;
     };
 };

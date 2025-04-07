@@ -19,6 +19,7 @@ MeldsManagerContainer::~MeldsManagerContainer() {
         delete _meldsIdMap[i];
     }
     delete[] _meldsIdMap;
+    delete _meldsFactory;
 }
 
 // ------------------------------

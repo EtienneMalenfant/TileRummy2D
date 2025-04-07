@@ -7,7 +7,6 @@ Window::Window(sf::RenderWindow* window,sf::Drawable* rootObj, IWindowEventsPubl
 
 gui::Window::~Window() {
     delete _window;
-    delete _app;
 }
 
 bool gui::Window::isOpen() const {

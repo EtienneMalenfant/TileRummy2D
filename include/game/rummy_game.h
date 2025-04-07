@@ -6,6 +6,7 @@
 class IGame {
 public:
     virtual void start() = 0;
+    virtual ~IGame() = default;
 };
 
 class RummyGame : public IGameEventListener, public IGame {

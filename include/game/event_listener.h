@@ -1,9 +1,6 @@
 #pragma once
 #include <game/event.h>
-#include <memory>
-
-template <typename T>
-using ptr = std::shared_ptr<T>;
+#include <smart_ptr.h>
 
 class IGameEventListener {
 public:

@@ -55,6 +55,7 @@ void RummyGameBuilder::deleteObjects() {
     delete _newMeldsAnalyser;
     delete _logger;
     delete _players;
+    delete _guiPlayerController;
     for (int i = 0; i < 4; i++) {
         delete _botPlayer[i];
     }

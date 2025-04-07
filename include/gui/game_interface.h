@@ -21,6 +21,8 @@ namespace gui {
         IGameEventListener* _gameEventListener;
         IGameEventHandler* _gameEventHandler;
         IWindow* _window;
+        IWindowFactory* _windowFactory;
+        IWindowSettings* _windowSettings;
         PlayerControlsProxy* _playerControlsProxy {nullptr}; // pour set le logger
         const AppSettings* _appSettings;
     public:

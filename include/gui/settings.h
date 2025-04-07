@@ -2,7 +2,7 @@
 #include <string>
 
 namespace gui {
-    
+
     class IWindowSettings {
     public:
         virtual int getBaseWindowWidth() const = 0;
@@ -12,6 +12,8 @@ namespace gui {
         virtual bool isResizable() const = 0;
         virtual bool isFullscreen() const = 0;
         virtual std::string getTitle() const = 0;
+
+        virtual ~IWindowSettings() = default;
     };
 
     class WindowSettings : public IWindowSettings {
@@ -26,7 +28,7 @@ namespace gui {
         const int yRes = 1080;
     public:
         WindowSettings(int windowWidth, int windowHeight, bool resizable, bool fullscreen, const std::string& title)
-         :  baseWindowWidth(windowWidth), baseWindowHeight(windowHeight), 
+         :  baseWindowWidth(windowWidth), baseWindowHeight(windowHeight),
             resizable(resizable), fullscreen(fullscreen), title(title) {};
         int getBaseWindowWidth() const override { return baseWindowWidth; }
         int getBaseWindowHeight() const override { return baseWindowHeight; }
