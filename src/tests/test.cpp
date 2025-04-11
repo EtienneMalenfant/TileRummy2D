@@ -14,6 +14,7 @@ void test::runTests() {
     ActionsAnalyserTest::SmartUtils::runMeldBuilderTests();
     ActionsAnalyserTest::runTests();
     GameBuilderTest::runTests();
+    SettingsTest::runTests();
 
     std::cout << "Tous les tests ont réussi" << std::endl;
 }

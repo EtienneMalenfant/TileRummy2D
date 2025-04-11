@@ -4,23 +4,30 @@
 
 using namespace gui;
 
-WindowGameInterface::WindowGameInterface(GameDependencies* dependencies) {
+WindowGameInterface::WindowGameInterface(GameDependencies* dependencies, const AppSettings& appSettings) : _appSettings(&appSettings) {
     GameEventHandler* eventsListenerHandler = new GameEventHandler();
     // si le joueur est un utilisateur
     if (dependencies->playerController != nullptr) {
         _playerControlsProxy = new PlayerControlsProxy(eventsListenerHandler, dependencies->playerController,
             dependencies->currentPlayer->getName(), eventsListenerHandler);
         _gameEventListener = _playerControlsProxy;
-    } 
+    }
     else {
         _gameEventListener = eventsListenerHandler;
     }
 
-    _gameEventHandler = eventsListenerHandler
-    ;
+    _gameEventHandler = eventsListenerHandler;
     // pour ajouter mon proxy dans IPlayerController
     _dependencies = new GameDependencies(dependencies->eventPublisher, dependencies->meldsContainer, _playerControlsProxy,
         dependencies->currentPlayer, dependencies->players);
+}
+
+WindowGameInterface::~WindowGameInterface() {
+    delete _window;
+    delete _gameEventListener;
+    delete _windowFactory;
+    delete _windowSettings;
+    delete _dependencies;
 }
 
 IGameEventListener* WindowGameInterface::getEventListener() const {
@@ -29,9 +36,9 @@ IGameEventListener* WindowGameInterface::getEventListener() const {
 
 void WindowGameInterface::start() {
     // Créer la fenêtre
-    IWindowSettings* settings = new WindowSettings(1600, 900, true, false, "Rummy");
-    IWindowFactory* windowFactory = new WindowFactory(settings, _dependencies, _gameEventHandler);
-    _window = windowFactory->createWindow();
+    _windowSettings = new WindowSettings(1600, 900, true, false, "Rummy");
+    _windowFactory = new WindowFactory(_dependencies, _gameEventHandler, _windowSettings, _appSettings);
+    _window = _windowFactory->createWindow();
 
     if (_playerControlsProxy != nullptr) {
         _playerControlsProxy->setGameLogger(_gameEventHandler->getLogger());

@@ -4,9 +4,13 @@ using namespace bot;
 
 TileWrapperManager::TileWrapperManager(IMeldsContainer* meldsContainer) : _meldsContainer(meldsContainer) {}
 
-void TileWrapperManager::resertArrays() {
+TileWrapperManager::~TileWrapperManager() {
+    resetArrays();
+}
+
+void TileWrapperManager::resetArrays() {
     for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 14; j++) {
+        for (int j = 0; j < 13; j++) {
             for (int k = 0; k < 2; k++) {
                 delete _tiles[i][j][k];
                 _tiles[i][j][k] = nullptr;
@@ -92,7 +96,7 @@ std::vector<TileWrapper*>* TileWrapperManager::getSequenceCompatibleTiles(Color 
 
 
 void TileWrapperManager::refresh(const std::list<const Tile*>* playerTiles) {
-    resertArrays();
+    resetArrays();
     fillGameTiles();
     for (const Tile* playerTile : *playerTiles) {
         TileWrapper* wrapperTile = new TileWrapper(playerTile, nullptr, true);

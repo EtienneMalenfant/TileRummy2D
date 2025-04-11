@@ -21,18 +21,25 @@ public:
 
 class RummyGameBuilder : public IGameBuilder {
 private:
-    std::vector<IPlayer*>* _players {};
-    bot::IBotPlayer* _botPlayer[4] {}; // pour paramétrer les bots
+
     unsigned int _waitTime {400};
-    ILogger* _logger;
+    ILogger* _logger {};
     IGameEventPublisher* _eventPublisher {};
     IMeldsContainer* _meldsContainer {};
     IMeldsManager* _meldsManager {};
     TileStock* _stock {};
+
+    std::vector<IPlayer*>* _players {};
     IPlayerController* _guiPlayerController {};
     IPlayer* _guiPlayer {};
-    bot::IActionsAnalyser* _actionsAnalyser {};
+
+    bot::IBotPlayer* _botPlayer[4] {}; // pour paramétrer les bots
+    bot::IActionsAnalyser* _insertionsAnalyser {};
+    bot::IActionsAnalyser* _newMeldsAnalyser {};
     int _difficultyLevel {1};
+
+    IGame* _game {};
+    GameDependencies* _dependencies {};
 
     void init();
     void initActionsAnalyser();

@@ -21,7 +21,7 @@ namespace bot {
         int _index = 0;
     public:
         TileNodeIterator(std::vector<ITileNode*>* nodes);
-        ~TileNodeIterator();
+        ~TileNodeIterator() override;
 
         ITileNode* next() override;
         ITileNode* peek() override;

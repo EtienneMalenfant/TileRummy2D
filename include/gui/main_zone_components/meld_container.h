@@ -18,7 +18,7 @@ namespace gui {
         void placeTile(const Tile* tileData, int index);
     public:
         MeldContainer(const IMeld* meld, ITileFactory* tileFactory, IPlayerController* playerController);
-        ~MeldContainer() override;
+        ~MeldContainer() override = default;
         // ITileContainer
         Tile2D* getTileAt(const sf::Vector2f& position) override;
         bool addTileAt(Tile2D* tile, const sf::Vector2f& position) override;

@@ -11,6 +11,11 @@ AddNodeCommand::AddNodeCommand(ITileNode* node, std::vector<ITileNode*>* meld, V
     }
 }
 
+AddNodeCommand::~AddNodeCommand() {
+    delete _linkNodeCommand;
+    delete _assignJokerCommand;
+}
+
 void AddNodeCommand::execute() {
     // l'ordre d'execution est important
     _linkNodeCommand->execute();

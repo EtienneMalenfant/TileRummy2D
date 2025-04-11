@@ -18,10 +18,11 @@ namespace gui {
         virtual ~ITileContainer() = default;
     };
 
-
     // Contient tous les tuiles visuelles à l'écran
     class BaseTileContainer : public ITileContainer {
     protected:
         static Tile2D* tilesById[Tile::MAX_TILE_ID];
+        // Pas de delete ici, au pire on garde les tuiles pour les prochaines parties
+        // sinon on vide le tableau si on delete une classe dérivée
     };
 }

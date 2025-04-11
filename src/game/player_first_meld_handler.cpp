@@ -55,8 +55,7 @@ bool PlayerFirstMeldHandler::addAction(Action* action) {
         _points += tile->value;
         _playersTilesId.push_back(action->srcTileUID);
     }
-    _controller->addAction(action);
-    return true;
+    return _controller->addAction(action);
 }
 
 bool PlayerFirstMeldHandler::commitActions() {

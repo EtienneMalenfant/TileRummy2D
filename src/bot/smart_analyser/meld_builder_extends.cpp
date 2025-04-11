@@ -63,6 +63,7 @@ bool MeldBuilder::extendSet(ITileNode* node) {
     filterSets(compatibleNodes);
     // s'il ne reste plus asser de tuiles compatibles
     if (compatibleNodes->size() < 3) {
+        delete compatibleNodes;
         return false;
     }
 
@@ -84,9 +85,11 @@ bool MeldBuilder::extendSet(ITileNode* node) {
             ITileGroup* insertionGroup = new InsertionGroup(node, meldNode, nullptr);
             node->linkMeldTile(meldNode, MeldDirection::Previous);
             _currentGameState->add(insertionGroup);
+            delete compatibleNodes;
             return true;
         }
     }
+    delete compatibleNodes;
     return false;
 }
 

@@ -13,16 +13,36 @@ Tile2D::Tile2D(const Tile* const tile, const TileInfo& infos)
     Container::setOutlineThickness(-2);
 
     // DEBUG ONLY
+#ifdef DEBUG
     _id.setFont(*infos.font);
     _id.setCharacterSize(13);
     _id.setFillColor(sf::Color::Black);
     _id.setString(std::to_string(tile->uid));
+#endif
 }
 
 Tile2D::~Tile2D() {}
 
 const Tile* Tile2D::getTileData() const {
     return _tile;
+}
+
+void Tile2D::setPosition(float x, float y) {
+    Container::setPosition(x, y);
+#ifdef DEBUG
+    _id.setPosition(x, y);
+#endif
+}
+
+void Tile2D::setPosition(const sf::Vector2f& position) {
+    setPosition(position.x, position.y);
+}
+
+void Tile2D::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+    Container::draw(target, states);
+#ifdef DEBUG
+    target.draw(_id, states);
+#endif
 }
 
 // ------------------------------
@@ -37,10 +57,9 @@ NumberTile::NumberTile(const Tile* const tile, const TileInfo& infos, const sf::
 NumberTile::~NumberTile() {}
 
 void NumberTile::setPosition(float x, float y) {
-    Container::setPosition(x, y);
+    Tile2D::setPosition(x, y);
     sf::Vector2f offset = CoordsMath::getOffsetToCenter(Container::getLocalBounds(), _valueText.getLocalBounds());
     _valueText.setPosition(x + offset.x, y + offset.y);
-    _id.setPosition(x, y); // DEBUG ONLY
 }
 
 void NumberTile::setPosition(const sf::Vector2f& position) {
@@ -53,9 +72,8 @@ void NumberTile::setSize(const sf::Vector2f& size) {
 }
 
 void NumberTile::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-    Container::draw(target, states);
+    Tile2D::draw(target, states);
     target.draw(_valueText, states);
-    //target.draw(_id, states); // DEBUG ONLY
 }
 
 // ------------------------------
@@ -70,10 +88,9 @@ JokerTile::JokerTile(const Tile* const tile, const TileInfo& infos, const sf::Co
 JokerTile::~JokerTile() {}
 
 void JokerTile::setPosition(float x, float y) {
-    Container::setPosition(x, y);
+    Tile2D::setPosition(x, y);
     sf::Vector2f offset = CoordsMath::getOffsetToCenter(Container::getLocalBounds(), _jokerSign.getLocalBounds());
     _jokerSign.setPosition(x + offset.x, y + offset.y);
-    _id.setPosition(x, y); // DEBUG ONLY
 }
 
 void JokerTile::setPosition(const sf::Vector2f& position) {
@@ -86,8 +103,7 @@ void JokerTile::setSize(const sf::Vector2f& size) {
 }
 
 void JokerTile::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-    Container::draw(target, states);
+    Tile2D::draw(target, states);
     target.draw(_jokerSign, states);
-    // target.draw(_id, states); // DEBUG ONLY
 }
 

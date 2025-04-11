@@ -1,10 +1,23 @@
 #include <gui/utilities/font_loader.h>
+#include <settings/paths.h>
 
 using namespace gui;
 
-sf::Font* FontLoader::loadFont(const std::string& fontPath) {
+std::string FontLoader::getFontPath(Font font) {
+    std::string path = paths::dataRoot + "fonts/";
+    switch (font) {
+        case Font::Inconsolata:
+            return path + "Inconsolata-Regular.ttf";
+        case Font::Inter:
+            return path + "Inter_28pt-Bold.ttf";
+        default:
+            throw std::runtime_error("Police inconnue");
+    }
+}
+
+sf::Font* FontLoader::loadFont(Font fontEnum) {
     sf::Font* font = new sf::Font();
-    if (!font->loadFromFile(fontPath)) {
+    if (!font->loadFromFile(getFontPath(fontEnum))) {
         throw std::runtime_error("Erreur lors du chargement de la police");
     }
     return font;

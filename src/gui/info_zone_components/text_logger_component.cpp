@@ -12,6 +12,12 @@ TextLoggerComponent::TextLoggerComponent(sf::Font* font) :
     _logs.set_capacity(_capacity);
 }
 
+TextLoggerComponent::~TextLoggerComponent() {
+    for (sf::Text* text : _logs) {
+        delete text;
+    }
+}
+
 void TextLoggerComponent::updateLogsPosition() {
     sf::FloatRect bounds = Container::getGlobalBounds();
     float x = bounds.left + _margin;
@@ -62,7 +68,7 @@ sf::Text* TextLoggerComponent::getTextLog(const std::string& message) {
 }
 
 void TextLoggerComponent::addLog(sf::Text* log) {
-    // Pour delete l'object qui va se faire remplacer 
+    // Pour delete l'object qui va se faire remplacer
     if (_logs.full()) {
         delete _logs.front();
     }

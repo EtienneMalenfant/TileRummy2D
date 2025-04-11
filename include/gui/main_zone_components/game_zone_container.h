@@ -15,7 +15,6 @@ namespace gui {
         const float _mainZoneHeightRatio;
     public:
         GameZoneContainer(Container* playerTilesContainer, Container* meldsContainer, sf::Drawable* tileMover, float mainZoneHeightRatio);
-        ~GameZoneContainer() override;
         
         void setPosition(float x, float y) override;
         void setPosition(const sf::Vector2f& position) override;

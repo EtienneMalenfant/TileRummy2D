@@ -5,7 +5,7 @@
 using namespace gui;
 
 ControlsZoneComponent::ControlsZoneComponent(IPlayerController* controller) : _controller(controller) {
-    sf::Font* font = FontLoader::loadFont("assets/fonts/Inconsolata-Regular.ttf");
+    sf::Font* font = FontLoader::loadFont(Font::Inconsolata);
     _buttons[0] = new Button("Piger", font);
     _buttons[1] = new Button("Confirmer", font);
     _buttons[2] = new Button("Annuler", font);

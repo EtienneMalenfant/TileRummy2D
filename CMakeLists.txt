@@ -1,31 +1,48 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.20)
 
-project(rummy_game VERSION 1.0)
+project(TileRummy2D VERSION 0.9)
 
 find_package(SFML 2.6 COMPONENTS graphics window system REQUIRED)
-find_package(Boost CONFIG REQUIRED)
+find_package(Boost CONFIG REQUIRED COMPONENTS json)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+# set(CMAKE_BUILD_TYPE Release)
 set(CMAKE_BUILD_TYPE Debug)
 
-include_directories(${PROJECT_SOURCE_DIR}/include)
 
 file(GLOB_RECURSE SOURCES
     ${PROJECT_SOURCE_DIR}/src/*.cpp
 )
-add_executable(rummy_game ${SOURCES})
+add_executable(TileRummy2D ${SOURCES})
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -g")
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address")
-
-target_compile_options(rummy_game PRIVATE
+target_compile_options(TileRummy2D PRIVATE
     -fdiagnostics-color=always
 )
-# set(CMAKE_COLOR_MAKEFILE OFF)
 
-target_link_libraries(rummy_game
+target_include_directories( TileRummy2D PRIVATE
+    ${PROJECT_SOURCE_DIR}/include
+)
+
+# Release or Debug configs
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+    message("-- Release build")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -DNDEBUG")  # Enable optimizations and disable assertions
+    add_compile_definitions(RELEASE)
+else()
+    message("-- Debug build")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -g")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_CXX_LINKER_FLAGS} -fsanitize=address")
+
+    add_compile_definitions(DEBUG)
+endif()
+
+
+# Dependencies
+target_link_libraries(TileRummy2D PRIVATE
+    sfml-system
     sfml-graphics
     sfml-window
-    sfml-system
+    Boost::json
 )

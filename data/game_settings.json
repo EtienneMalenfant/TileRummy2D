@@ -1,0 +1,9 @@
+{
+    "playerName": "Joueur",
+    "botNames": [
+        "ALice",
+        "Bob",
+        "Charlie"
+    ],
+    "botCount": 3
+}

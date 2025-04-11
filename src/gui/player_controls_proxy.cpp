@@ -1,10 +1,21 @@
 #include <gui/player_controls_proxy.h>
+#include <thread>
 
 using namespace gui;
 
 PlayerControlsProxy::PlayerControlsProxy(IGameEventListener* eventListener, IPlayerController* controller,
      const std::string& userName, IUpdateable* rootUpdateable)
     : _eventListener(eventListener), _controller(controller), _userName(userName), _rootUpdateable(rootUpdateable) {}
+
+PlayerControlsProxy::~PlayerControlsProxy() {
+    // sinon on peut bloquer ici et ne jamais sortir
+    _isUserTurn = false;
+    _cv.notify_all();
+    // laisser le temps au thread de se débloquer
+    // sinon on va accéder à cet objet qui est delete en revenant (ligne _cv.wait ...)
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    delete _eventListener;
+}
 
 // ------------------------------
 

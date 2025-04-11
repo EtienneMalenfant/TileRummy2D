@@ -5,11 +5,6 @@ using namespace gui;
 GameZoneContainer::GameZoneContainer(Container* playerTilesContainer, Container* meldsContainer, sf::Drawable* tileMover, float mainZoneHeightRatio)
     : _playerTilesContainer(playerTilesContainer), _meldsContainer(meldsContainer), _mainZoneHeightRatio(mainZoneHeightRatio), _tileMover(tileMover) {}
 
-GameZoneContainer::~GameZoneContainer() {
-    delete _playerTilesContainer;
-    delete _meldsContainer;
-}
-
 void GameZoneContainer::setPosition(float x, float y) {
     Container::setPosition(x, y);
     _meldsContainer->setPosition(x, y);

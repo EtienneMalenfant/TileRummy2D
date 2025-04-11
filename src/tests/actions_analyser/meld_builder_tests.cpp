@@ -97,8 +97,10 @@ namespace ActionsAnalyserTest {
                 Action* action = actions->front();
                 actions->pop_front();
                 Test::validate(action->toString() == expectedActions[i].toString(), __func__);
+                delete action;
             }
-            cleanActionsLists(actionsLists);
+            delete actions;
+            delete actionsLists;
         }
 
         void setFormationWithGameTilesTest() {
@@ -198,6 +200,9 @@ namespace ActionsAnalyserTest {
             sequenceBothWaysTestInvalid();
             useJokerTest();
 
+            for (const Tile* tile : *playerTiles) {
+                delete tile;
+            }
             delete playerTiles;
             delete tileWrapperManager;
             delete tileGraph;

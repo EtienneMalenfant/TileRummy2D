@@ -22,3 +22,9 @@ namespace GameBuilderTest {
 
     void runTests();
 }
+
+namespace SettingsTest {
+    void runAppSettingsTests();
+    void runGameSettingsTests();
+    void runTests();
+}

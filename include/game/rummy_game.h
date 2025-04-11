@@ -6,6 +6,7 @@
 class IGame {
 public:
     virtual void start() = 0;
+    virtual ~IGame() = default;
 };
 
 class RummyGame : public IGameEventListener, public IGame {
@@ -17,7 +18,6 @@ private:
     bool isOver();
 public:
     RummyGame(std::vector<IPlayer*>* players, IGameEventPublisher* publisher);
-    ~RummyGame();
     void start() override;
     void update(ptr<IEvent> event) override;
 };

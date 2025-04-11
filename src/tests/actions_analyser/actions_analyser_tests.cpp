@@ -26,6 +26,17 @@ namespace ActionsAnalyserTest {
         tiles->clear();
     }
 
+    void deleteActions(std::list<std::list<Action*>*>* actions) {
+        for (auto meldActions : *actions) {
+            for (Action* action : *meldActions) {
+                delete action;
+                action = nullptr;
+            }
+            delete meldActions;
+        }
+        delete actions;
+    }
+
     void addTiles() {
         tiles->push_back(new Tile(1, Color::RED, false, 30));
         tiles->push_back(new Tile(2, Color::RED, false, 31));
@@ -56,7 +67,7 @@ namespace ActionsAnalyserTest {
         }
         Test::validate(longuestMeld == 5, __func__);
 
-        delete newMeldsActions;
+        deleteActions(newMeldsActions);
         delete analyser;
     }
 
@@ -65,16 +76,14 @@ namespace ActionsAnalyserTest {
         std::list<std::list<Action*>*>* insertions = analyser->getActionsSequences(tiles, true);
         // le 9 jaune + 2 déplacements = 3
         Test::validate(insertions->size() == 1 && insertions->front()->size() == 3, __func__);
-        delete insertions->front();
-        delete insertions;
+        deleteActions(insertions);
         emptyTiles();
 
         // insertion simple
         tiles->push_back(new Tile(12, Color::YELLOW, false, 41));
         insertions = analyser->getActionsSequences(tiles);
         Test::validate(insertions->size() == 1 && insertions->front()->size() == 1, __func__);
-        delete insertions->front();
-        delete insertions;
+        deleteActions(insertions);
         delete analyser;
     }
 

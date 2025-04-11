@@ -3,3 +3,5 @@ build
 .fuse*
 logs
 .vscode
+bin
+TileRummy2D

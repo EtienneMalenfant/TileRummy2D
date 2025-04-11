@@ -23,7 +23,7 @@ namespace bot {
             TileWrapper* _jokers[2] {nullptr};
             std::vector<TileWrapper*> _playerTiles;
 
-            void resertArrays();
+            void resetArrays();
             void fillGameTiles();
 
             void addWrapper(TileWrapper* tileWrapper);
@@ -34,7 +34,7 @@ namespace bot {
 
         public:
             TileWrapperManager(IMeldsContainer* meldsContainer);
-            ~TileWrapperManager() = default;
+            ~TileWrapperManager();
 
             void refresh(const std::list<const Tile*>* playerTiles) override;
             const std::vector<TileWrapper*>* getPlayerTiles() override;

@@ -1,16 +1,9 @@
 #include <game/rummy_game.h>
 
-RummyGame::RummyGame(std::vector<IPlayer*>* players, IGameEventPublisher* publisher) 
+RummyGame::RummyGame(std::vector<IPlayer*>* players, IGameEventPublisher* publisher)
     : _players(players), _eventPublisher(publisher) {
         _nbPlayers = players->size();
     }
-
-RummyGame::~RummyGame() {
-    for (int i = 0; i < _nbPlayers; i++) {
-        delete (*_players)[i];
-    }
-    delete[] _players;
-}
 
 bool RummyGame::isOver() {
     for (int i = 0; i < _nbPlayers; i++) {

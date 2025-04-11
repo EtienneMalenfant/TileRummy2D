@@ -8,6 +8,7 @@ namespace bot {
     class IBotPlayer {
         public:
         virtual void setWaitTime(unsigned int time) = 0;
+        virtual ~IBotPlayer() = default;
     };
 
     class BotPlayer : public IGameEventListener, public IBotPlayer {
@@ -23,7 +24,7 @@ namespace bot {
         std::mt19937 _randGen {std::random_device()()};
         unsigned int _baseWaitTime {};
         void simulateProcessing();
-
+        void deleteAndClearNewMelds();
         std::list<std::list<Action*>*>* getNewMelds();
         void handleFirstTurn();
         bool playAllNewMelds();
@@ -32,8 +33,9 @@ namespace bot {
         bool playSomething();
         bool playInsertions();
         public:
-        BotPlayer(IPlayerController* controller, IPlayer* player, IActionsAnalyser* actionsAnalyser);
-        ~BotPlayer();
+        BotPlayer(IPlayerController* controller, IPlayer* player, IActionsAnalyser* insertionsAnalyser, IActionsAnalyser* newMeldsAnalyser);
+        ~BotPlayer() override;
+
         void update(ptr<IEvent> event) override;
         void setWaitTime(unsigned int time) override;
     };

@@ -30,7 +30,7 @@ bool DefaultValidator::isSequence(ITileList* tiles) {
     Color color = tiles->get(0)->color;
     int lastValue = tiles->get(0)->value;
     for (int i = 1; i < tiles->size(); i++) {
-        if (tiles->get(i)->color != color || 
+        if (tiles->get(i)->color != color ||
             (tiles->get(i)->value) - lastValue != 1) {
             return false;
         }
@@ -136,7 +136,7 @@ bool ValidatorWithJoker::isSet(ITileList* tiles) {
             jokers[jokerCount] = t;
             jokerCount++;
             continue;
-        } 
+        }
         //traitement pour les autres tuiles
         if (setValue == -1) {
             setValue = tiles->get(i)->value;
@@ -170,6 +170,9 @@ bool ValidatorWithJoker::isSet(ITileList* tiles) {
             delete availableColor[i];
         }
         return true;
+    }
+    for (int i = 0; i < 4; i++) {
+        delete availableColor[i];
     }
     return false;
 }
