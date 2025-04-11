@@ -151,7 +151,6 @@ bool MeldBuilder::replaceOrphanedTiles(std::vector<ITileNode*>* sequenceExtensio
             it = nodesToReplace->erase(it);
         }
         else {
-            delete sequenceExtension;
             delete nodesToReplace;
             return false;
         }
@@ -322,6 +321,7 @@ bool MeldBuilder::formSequence(ITileNode* nodeToPlace, std::vector<ITileNode*>& 
     // si la tuile est dans un meld, on regarde si on peut la retirer de son meld
     if (nodeToPlace->getMeldTileCount() > 1) {
         if (replaceOrphanedTiles(sequenceExtension, nodeToPlace, recursionLevel) == false) {
+            delete sequenceExtension;
             return false;
         }
     }
@@ -338,6 +338,7 @@ bool MeldBuilder::formSequence(ITileNode* nodeToPlace, std::vector<ITileNode*>& 
     if (currentMeldBuild.size() >= 3 && (sequenceExtension->size() >= 3 || sequenceExtension->size() == 0)) {
         // on ajoute les tuiles de séquence qui vont dans le même sens s'il y en a moins que 3
         _currentGameState->add(new MeldRebuildGroup(currentMeldBuild));
+        delete sequenceExtension;
         delete linkNodeCommand;
         return true;
     }
@@ -351,6 +352,7 @@ bool MeldBuilder::formSequence(ITileNode* nodeToPlace, std::vector<ITileNode*>& 
             delete linkNodeCommand;
         }
         delete compatibleNodes;
+        delete sequenceExtension;
         return false;
     }
     // si on est dans une séquence existante trop petite pour former un meld, on la continue et on ne considère pas les autres tuiles
@@ -365,6 +367,8 @@ bool MeldBuilder::formSequence(ITileNode* nodeToPlace, std::vector<ITileNode*>& 
         }
         compatibleNodes->insert(compatibleNodes->begin(), sequenceNode);
     }
+    delete sequenceExtension;
+    sequenceExtension = nullptr;
 
     // on continue de construire le meld en appelant cette méthode de façon récursive
     // trier en ordre de priorité : les tuiles du joueur, les tuiles du meld et ensuite les autres tuiles
@@ -419,6 +423,15 @@ std::vector<MeldType> MeldBuilder::getMeldTypeOrder(ITileNode* node) {
     return typeOrder;
 }
 
+void emptyCommandStack(std::stack<ICommand*>* commandStack) {
+    while (!commandStack->empty()) {
+        ICommand* command = commandStack->top();
+        command->undo();
+        delete command;
+        commandStack->pop();
+    }
+}
+
 bool MeldBuilder::organizeNodePlacement(ITileNode* node, int recursionLevel) {
     if (recursionLevel > _maxRecursionLevel) {
         return false;
@@ -439,6 +452,7 @@ bool MeldBuilder::organizeNodePlacement(ITileNode* node, int recursionLevel) {
         else if (type == MeldType::SEQUENCE) {
             std::stack<ICommand*> linkNodeCommands;
             if (extendSequence(node)) {
+                emptyCommandStack(&linkNodeCommands);
                 return true;
             }
             // tenter de faire une séquence dans une des deux directions

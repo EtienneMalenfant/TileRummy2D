@@ -18,16 +18,16 @@ GameZoneContainerBuilder::GameZoneContainerBuilder(GameDependencies* dependencie
         60,
         _font
     };
-    ITileFactory* tileFactory = new TileFactory(tileInfo);
+    _tileFactory = new TileFactory(tileInfo);
 
     // zone de jeu
-    MeldsManagerContainer* meldsContainer = new MeldsManagerContainer(tileFactory, dependencies->meldsContainer, dependencies->playerController);
+    MeldsManagerContainer* meldsContainer = new MeldsManagerContainer(_tileFactory, dependencies->meldsContainer, dependencies->playerController);
     eventHandler->addUpdeatable(meldsContainer);
     _meldsContainer = meldsContainer;
     _meldsContainer->setFillColor(sf::Color(0, 110, 0));
 
     //zone de l'inventaire du joueur
-    PlayerTilesContainer* playerTilesContainer = new PlayerTilesContainer(tileFactory, dependencies->currentPlayer);
+    PlayerTilesContainer* playerTilesContainer = new PlayerTilesContainer(_tileFactory, dependencies->currentPlayer);
     eventHandler->addUpdeatable(playerTilesContainer);
     _playerTilesContainer = playerTilesContainer;
     _playerTilesContainer->setFillColor(sf::Color(0, 140, 20));
@@ -47,6 +47,7 @@ GameZoneContainerBuilder::~GameZoneContainerBuilder() {
     delete _meldsContainer;
     delete _playerTilesContainer;
     delete _font;
+    delete _tileFactory;
 }
 
 void GameZoneContainerBuilder::setEmplacement(const sf::FloatRect& emplacement) {

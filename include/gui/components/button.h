@@ -10,7 +10,6 @@ namespace gui {
         sf::Text _name;
     public:
         Button(const std::string& name, sf::Font* font, const sf::Color& textColor = sf::Color::Black);
-        ~Button() override = default;
         std::string getName() const;
 
         // Container

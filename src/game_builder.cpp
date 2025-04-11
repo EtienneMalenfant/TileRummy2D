@@ -49,7 +49,7 @@ void RummyGameBuilder::initActionsAnalyser() {
 
 void RummyGameBuilder::deleteObjects() {
     delete _eventPublisher;
-    delete _meldsContainer;
+    delete _meldsManager;
     delete _stock;
     delete _insertionsAnalyser;
     delete _newMeldsAnalyser;

@@ -200,6 +200,9 @@ namespace ActionsAnalyserTest {
             sequenceBothWaysTestInvalid();
             useJokerTest();
 
+            for (const Tile* tile : *playerTiles) {
+                delete tile;
+            }
             delete playerTiles;
             delete tileWrapperManager;
             delete tileGraph;
