@@ -11,9 +11,9 @@ namespace gui {
         gui::IWindowEventHandler* _handler;
     public:
         GameControlsBuilder(IPlayerController* const controller, IWindowEventsPublisher* const eventPublisher);
-        ~GameControlsBuilder() override;
+        // pas de delete, le container va se faire delete par le IWindowEventsPublisher
         void setEmplacement(const sf::FloatRect& emplacement) override;
         sf::Drawable* getDrawable() override;
-    
+
     };
 }

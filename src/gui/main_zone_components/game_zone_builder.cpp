@@ -33,13 +33,13 @@ GameZoneContainerBuilder::GameZoneContainerBuilder(GameDependencies* dependencie
     _playerTilesContainer->setFillColor(sf::Color(0, 140, 20));
 
     // le gestionnaire de déplacement
-    TileMover* tileMover = new TileMover(meldsContainer, playerTilesContainer);
+    ptr<TileMover> tileMover = std::make_shared<TileMover>(meldsContainer, playerTilesContainer);
     eventsPublisher->subscribe(sf::Event::MouseButtonPressed, tileMover);
     eventsPublisher->subscribe(sf::Event::MouseButtonReleased, tileMover);
     eventsPublisher->subscribe(sf::Event::MouseMoved, tileMover);
 
     // les deux ensembles
-    _gameZoneContainer = new GameZoneContainer(_playerTilesContainer, _meldsContainer, tileMover, _mainZoneHeightRatio);
+    _gameZoneContainer = new GameZoneContainer(_playerTilesContainer, _meldsContainer, tileMover.get(), _mainZoneHeightRatio);
 }
 
 GameZoneContainerBuilder::~GameZoneContainerBuilder() {

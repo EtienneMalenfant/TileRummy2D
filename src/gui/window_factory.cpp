@@ -62,7 +62,7 @@ unsigned int WindowFactory::getWindowStyle() {
 }
 
 void WindowFactory::configWindowEventHandler(sf::RenderWindow* renderWindow) {
-    IWindowEventHandler* windowEventsHandler = new WindowResizeEventsHandler(renderWindow, _settings);
+    ptr<IWindowEventHandler> windowEventsHandler = std::make_shared<WindowResizeEventsHandler>(renderWindow, _settings);
     _eventPublisher->subscribe(sf::Event::Closed, windowEventsHandler);
     _eventPublisher->subscribe(sf::Event::Resized, windowEventsHandler);
 }
