@@ -57,6 +57,7 @@ bool MeldBuilder::extendSet(ITileNode* node) {
     std::vector<ITileNode*>* compatibleNodes = copyCompatibleNodes(node, ValueDirection::Same);
     // s'il n'y a pas assez de tuiles compatibles
     if (compatibleNodes->size() < 3) {
+        delete compatibleNodes;
         return false;
     }
     filterJokers(compatibleNodes, node);

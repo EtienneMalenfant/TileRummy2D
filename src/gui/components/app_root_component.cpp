@@ -5,9 +5,6 @@ using namespace gui;
 AppRootComponent::AppRootComponent(std::vector<sf::Drawable*>* components) : _components(components) {}
 
 AppRootComponent::~AppRootComponent() {
-    for (sf::Drawable* component : *_components) {
-        delete component;
-    }
     delete _components;
 }
 

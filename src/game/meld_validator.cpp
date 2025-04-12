@@ -121,6 +121,14 @@ bool ValidatorWithJoker::isSequence(ITileList* tiles) {
     return true;
 }
 
+
+void emptyAvailableColors(Color** availableColors) {
+    for (int i = 0; i < 2; i++) {
+        delete availableColors[i];
+    }
+}
+
+
 bool ValidatorWithJoker::isSet(ITileList* tiles) {
     if (tiles->size() < 3) {
         return false;
@@ -156,23 +164,21 @@ bool ValidatorWithJoker::isSet(ITileList* tiles) {
             nbColors++;
         }
         else {
-            if (availableColor[0] == nullptr) {
-                availableColor[0] = new Color {i};
-            } else {
-                availableColor[1] = new Color {i};
+            int c = 0;
+            if (availableColor[0] != nullptr) {
+                c = 1;
             }
+            availableColor[c] = new Color {i};
         }
     }
     if (nbColors >= (3 - jokerCount)) {
         for (int i = 0; i < jokerCount; i++) {
             jokers[i]->setValue(setValue); // le nombre du set
             jokers[i]->setColor(*availableColor[i]);
-            delete availableColor[i];
         }
+        emptyAvailableColors(availableColor);
         return true;
     }
-    for (int i = 0; i < 4; i++) {
-        delete availableColor[i];
-    }
+    emptyAvailableColors(availableColor);
     return false;
 }

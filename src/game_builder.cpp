@@ -37,13 +37,13 @@ void RummyGameBuilder::initActionsAnalyser() {
     switch (_difficultyLevel) {
         case 1:
             _insertionsAnalyser = new bot::DumbActionsAnalyser(_meldsContainer);
-            break;
+            return;
         case 2:
             _insertionsAnalyser = new bot::SmartInsertionsAnalyser(_meldsContainer);
-            break;
+            return;
         default:
             _insertionsAnalyser = new bot::SmartInsertionsAnalyser(_meldsContainer);
-            break;
+            return;
     }
 }
 
