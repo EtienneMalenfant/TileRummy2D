@@ -159,16 +159,14 @@ bool ValidatorWithJoker::isSet(ITileList* tiles) {
     //trouver le nombre de couleurs présentes
     int nbColors = 0;
     Color* availableColor[2] {nullptr};
+    int availableColorCount = 0;
     for (int i = 0; i < 4; i++) {
         if (presentColors[i]) {
             nbColors++;
         }
-        else {
-            int c = 0;
-            if (availableColor[0] != nullptr) {
-                c = 1;
-            }
-            availableColor[c] = new Color {i};
+        else if (availableColorCount < 2) {
+            availableColor[availableColorCount] = new Color {i};
+            availableColorCount++;
         }
     }
     if (nbColors >= (3 - jokerCount)) {
