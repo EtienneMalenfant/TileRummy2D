@@ -19,11 +19,12 @@ namespace gui {
         ILogger* _gameLogger;
         IUpdateable* _rootUpdateable;
         std::string _userName;
+        void displayNotYourTurnMessage();
 
     public:
         PlayerControlsProxy(IGameEventListener* eventListener, IPlayerController* controller, const std::string& userName, IUpdateable* rootUpdateable);
         ~PlayerControlsProxy() override;
-        
+
         void setGameLogger(ILogger* logger);
         // IGameEventListener
         void update(ptr<IEvent> event) override;

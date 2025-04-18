@@ -17,6 +17,10 @@ PlayerControlsProxy::~PlayerControlsProxy() {
     delete _eventListener;
 }
 
+void PlayerControlsProxy::displayNotYourTurnMessage() {
+    _gameLogger->log("Ce n'est pas votre tour", LogType::Warning);
+}
+
 // ------------------------------
 
 void PlayerControlsProxy::setGameLogger(ILogger* logger) {
@@ -44,7 +48,7 @@ void PlayerControlsProxy::draw() {
         _isUserTurn = false;
         _cv.notify_one();
     } else {
-        _gameLogger->log("Ce n'est pas votre tour", LogType::Warning);
+        displayNotYourTurnMessage();
     }
 }
 
@@ -52,6 +56,7 @@ bool PlayerControlsProxy::addAction(Action* action) {
     if (_isUserTurn) {
         return _controller->addAction(action);
     }
+    displayNotYourTurnMessage();
     return false;
 }
 
@@ -67,7 +72,7 @@ bool PlayerControlsProxy::commitActions() {
         }
         return hasCommitedActions;
     }
-    _gameLogger->log("Ce n'est pas votre tour", LogType::Warning);
+    displayNotYourTurnMessage();
     return false;
 }
 
