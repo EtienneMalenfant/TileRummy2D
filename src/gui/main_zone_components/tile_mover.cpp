@@ -45,7 +45,7 @@ void TileMover::handleLeftRelease(const sf::Event& event) {
         if ((targetContainer == _playerContainer && _isGameTile) == false) {
             hasPlacedTile = targetContainer->addTileAt(_selectedTile, mousePos);
         }
-        if (targetContainer == _gameContainer && hasPlacedTile) {
+        if (hasPlacedTile) {
             static_cast<IUpdateable*>(_gameContainer)->update(); // cast parce que update() est aussi sur sf::Shape
         }
     }
