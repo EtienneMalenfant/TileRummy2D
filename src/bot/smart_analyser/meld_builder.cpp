@@ -348,6 +348,12 @@ bool MeldBuilder::formSequence(ITileNode* nodeToPlace, std::vector<ITileNode*>& 
 
     std::vector<ITileNode*>* compatibleNodes = getFilteredCompatibleNodes(currentMeldBuild, nodeToPlace, direction);
     if (compatibleNodes->size() == 0) {
+        // on a pas réussi à former une séquence dans cette direction, mais on annule pas pour la continuer dans l'autre sens
+        if (isBuildingBothWays == false) {
+            linkNodeCommand->undo();
+            linkNodeCommands->pop();
+            delete linkNodeCommand;
+        }
         delete compatibleNodes;
         delete sequenceExtension;
         return false;
@@ -380,6 +386,11 @@ bool MeldBuilder::formSequence(ITileNode* nodeToPlace, std::vector<ITileNode*>& 
         else if (isBuildingBothWays) {
             break; // pour ne pas ajouter d'autre fois des tuiles de la même valeur
         }
+    }
+    if (isBuildingBothWays == false) {
+        linkNodeCommand->undo();
+        linkNodeCommands->pop();
+        delete linkNodeCommand;
     }
     // on, a pas réussi à construire le meld, on remet comme avant
     delete compatibleNodes;
