@@ -348,12 +348,6 @@ bool MeldBuilder::formSequence(ITileNode* nodeToPlace, std::vector<ITileNode*>& 
 
     std::vector<ITileNode*>* compatibleNodes = getFilteredCompatibleNodes(currentMeldBuild, nodeToPlace, direction);
     if (compatibleNodes->size() == 0) {
-        // on a pas réussi à former une séquence dans cette direction, mais on annule pas pour la continuer dans l'autre sens
-        if (isBuildingBothWays == false) {
-            linkNodeCommand->undo();
-            linkNodeCommands->pop();
-            delete linkNodeCommand;
-        }
         delete compatibleNodes;
         delete sequenceExtension;
         return false;
@@ -386,11 +380,6 @@ bool MeldBuilder::formSequence(ITileNode* nodeToPlace, std::vector<ITileNode*>& 
         else if (isBuildingBothWays) {
             break; // pour ne pas ajouter d'autre fois des tuiles de la même valeur
         }
-    }
-    if (isBuildingBothWays == false) {
-        linkNodeCommand->undo();
-        linkNodeCommands->pop();
-        delete linkNodeCommand;
     }
     // on, a pas réussi à construire le meld, on remet comme avant
     delete compatibleNodes;
@@ -428,7 +417,6 @@ std::vector<MeldType> MeldBuilder::getMeldTypeOrder(ITileNode* node) {
 void emptyCommandStack(std::stack<ICommand*>* commandStack) {
     while (!commandStack->empty()) {
         ICommand* command = commandStack->top();
-        command->undo();
         delete command;
         commandStack->pop();
     }
@@ -478,6 +466,7 @@ bool MeldBuilder::organizeNodePlacement(ITileNode* node, int recursionLevel) {
             if (formSequence(node, currentMeldBuild, &linkNodeCommands, ValueDirection::Lower, recursionLevel, true) == false) {
                 const std::vector<ITileNode*> compatibleNodes = node->getCompatibleNodes(ValueDirection::Higher);
                 for (ITileNode* n : compatibleNodes) {
+                    // TODO : regarder pour annuler si on passe au prochain
                     if (formSequence(n, currentMeldBuild, &linkNodeCommands, ValueDirection::Higher, recursionLevel, false)) {
                         emptyCommandStack(&linkNodeCommands);
                         return true;

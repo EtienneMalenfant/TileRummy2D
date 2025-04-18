@@ -6,9 +6,10 @@
 class PlayerControllerLogger : public IPlayerController {
 private:
     IPlayerController* _controller;
+    std::string _playerName;
     ILogger* _logger;
 public:
-    PlayerControllerLogger(IPlayerController* controller, ILogger* logger);
+    PlayerControllerLogger(IPlayerController* controller, std::string playerName, ILogger* logger);
     ~PlayerControllerLogger();
     void draw() override;
     bool addAction(Action* action) override;

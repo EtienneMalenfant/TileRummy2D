@@ -104,11 +104,11 @@ void RummyGameBuilder::reset() {
 void RummyGameBuilder::addBot(const std::string& name) {
     PlayerManager* currentPlayer = new PlayerManager(_stock, _meldsManager, _eventPublisher, name);
     IPlayerController* controller = new PlayerFirstMeldHandler(currentPlayer, currentPlayer);
-    controller = new PlayerControllerLogger(controller, _logger);
+    controller = new PlayerControllerLogger(controller, name, _logger);
     // ajout dans la liste des joueurs
     _players->push_back(currentPlayer);
 
-    bot::BotPlayer* botPlayer = new bot::BotPlayer(controller, currentPlayer, _insertionsAnalyser, _newMeldsAnalyser);
+    bot::BotPlayer* botPlayer = new bot::BotPlayer(controller, currentPlayer, _insertionsAnalyser, _newMeldsAnalyser, _logger);
     // garger le IBotPlayer
     _botPlayer[_players->size()] = botPlayer;
     botPlayer->setWaitTime(_waitTime);
@@ -127,6 +127,7 @@ void RummyGameBuilder::addPlayer(const std::string& name) {
     PlayerManager* currentPlayer = new PlayerManager(_stock, _meldsManager, _eventPublisher, name);
     _guiPlayer = currentPlayer;
     _guiPlayerController = new PlayerFirstMeldHandler(currentPlayer, currentPlayer);
+    _guiPlayerController = new PlayerControllerLogger(_guiPlayerController, name, _logger);
     _players->push_back(_guiPlayer);
 }
 

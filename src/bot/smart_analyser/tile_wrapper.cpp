@@ -4,19 +4,23 @@
 using namespace bot;
 
 TileWrapper::TileWrapper(const Tile* tile, const IMeld* meld, bool isPlayerTile)
-    : _currentTile(tile), meld(meld), isPlayerTile(isPlayerTile)
+    : _tile(tile), meld(meld), isPlayerTile(isPlayerTile)
 {}
 
 TileWrapper::~TileWrapper() {
-    delete _createdTile;
+    if (_isCreatedTile) {
+        delete _tile;
+    }
 }
 
 void TileWrapper::setJokerValue(int value, Color color) {
-    if (_currentTile->isJoker == false) {
+    if (_tile->isJoker == false) {
         throw new std::invalid_argument("Erreur: la tuile n'est pas un joker");
     }
-    int id = _currentTile->uid;
-    delete _createdTile;
-    _currentTile = new Tile(value, color, true, id);
-    _createdTile = _currentTile;
+    int id = _tile->uid;
+    if (_isCreatedTile) {
+        delete _tile;
+    }
+    _tile = new Tile(value, color, true, id);
+    _isCreatedTile = true;
 }
