@@ -38,6 +38,7 @@ void PlayersInfoComponent::update() {
     for (int i = 0; i < _nbPlayers; i++) {
         IPlayer* player = _players->at(i);
         std::string playerName = player->getName();
+        playerName = playerName.substr(0, 12); // couper le nom à 12 caractères
         playerName = playerName.append(std::max(12 - (int)playerName.size(), 0), ' ') + " : "; // nom + espace pour aligner
         _playersInfo[i].setString(playerName + std::to_string(player->getTiles()->size()) + " tuiles"); // nom + nombre de tuiles
     }

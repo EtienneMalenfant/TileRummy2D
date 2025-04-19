@@ -69,6 +69,9 @@ bool PlayerControlsProxy::commitActions() {
         }
         else {
             _gameLogger->log("Le jeu n'est pas valide", LogType::Warning);
+            if (_controller->isStarted() == false) {
+                _gameLogger->log("Vous devez jouer au moins 30 pts", LogType::Warning);
+            }
         }
         return hasCommitedActions;
     }

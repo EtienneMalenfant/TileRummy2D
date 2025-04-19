@@ -74,6 +74,21 @@ void TextLoggerComponent::addLog(sf::Text* log) {
     }
     _logs.push_back(log);
 
+    const int maxSize = 32;
+    std::string message = log->getString();
+    // Si le message est trop long, on le coupe et on crée un nouveau log
+    if (message.size() > maxSize) {
+        int lastSpace = message.find_last_of(' ', maxSize);
+        if (lastSpace == std::string::npos) {
+            lastSpace = maxSize;
+        }
+        log->setString(log->getString().substring(0, lastSpace));
+        sf::Text* newLog = getTextLog(message.substr(lastSpace));
+        newLog->setFillColor(log->getFillColor());
+        addLog(newLog);
+        return;
+    }
+
     updateLogsPosition();
 }
 
