@@ -5,6 +5,10 @@
 
 using namespace bot;
 
+MeldBuilder::~MeldBuilder() {
+    delete _currentGameState;
+}
+
 std::vector<ITileNode*>* MeldBuilder::copyCompatibleNodes(ITileNode* node, ValueDirection d) {
     std::vector<ITileNode*>* newCompatibleNodes = new std::vector<ITileNode*>();
     const std::vector<ITileNode*> compatibleNodes = node->getCompatibleNodes(d);
@@ -339,7 +343,6 @@ bool MeldBuilder::formSequence(ITileNode* nodeToPlace, std::vector<ITileNode*>& 
         // on ajoute les tuiles de séquence qui vont dans le même sens s'il y en a moins que 3
         _currentGameState->add(new MeldRebuildGroup(currentMeldBuild));
         delete sequenceExtension;
-        delete linkNodeCommand;
         return true;
     }
 
@@ -378,7 +381,6 @@ bool MeldBuilder::formSequence(ITileNode* nodeToPlace, std::vector<ITileNode*>& 
         // on n'augmente pas le niveau de récursion puisqu'il s'agit de la même séquence
         if (formSequence(n, currentMeldBuild, linkNodeCommands, direction, recursionLevel, isBuildingBothWays)) {
             delete compatibleNodes;
-            delete linkNodeCommand;
             return true;
         }
         else if (isBuildingBothWays) {
@@ -426,7 +428,6 @@ std::vector<MeldType> MeldBuilder::getMeldTypeOrder(ITileNode* node) {
 void emptyCommandStack(std::stack<ICommand*>* commandStack) {
     while (!commandStack->empty()) {
         ICommand* command = commandStack->top();
-        command->undo();
         delete command;
         commandStack->pop();
     }
@@ -452,12 +453,12 @@ bool MeldBuilder::organizeNodePlacement(ITileNode* node, int recursionLevel) {
         else if (type == MeldType::SEQUENCE) {
             std::stack<ICommand*> linkNodeCommands;
             if (extendSequence(node)) {
-                emptyCommandStack(&linkNodeCommands);
                 return true;
             }
             // tenter de faire une séquence dans une des deux directions
             // en bas
             if (formSequence(node, currentMeldBuild, &linkNodeCommands, ValueDirection::Lower, recursionLevel, false)) {
+                emptyCommandStack(&linkNodeCommands);
                 return true;
             }
             else {
@@ -465,6 +466,7 @@ bool MeldBuilder::organizeNodePlacement(ITileNode* node, int recursionLevel) {
             }
             // en Haut
             if (formSequence(node, currentMeldBuild, &linkNodeCommands, ValueDirection::Higher, recursionLevel, false)) {
+                emptyCommandStack(&linkNodeCommands);
                 return true;
             }
             else {
@@ -475,7 +477,9 @@ bool MeldBuilder::organizeNodePlacement(ITileNode* node, int recursionLevel) {
             if (formSequence(node, currentMeldBuild, &linkNodeCommands, ValueDirection::Lower, recursionLevel, true) == false) {
                 const std::vector<ITileNode*> compatibleNodes = node->getCompatibleNodes(ValueDirection::Higher);
                 for (ITileNode* n : compatibleNodes) {
+                    // TODO : regarder pour annuler si on passe au prochain
                     if (formSequence(n, currentMeldBuild, &linkNodeCommands, ValueDirection::Higher, recursionLevel, false)) {
+                        emptyCommandStack(&linkNodeCommands);
                         return true;
                     }
                 }

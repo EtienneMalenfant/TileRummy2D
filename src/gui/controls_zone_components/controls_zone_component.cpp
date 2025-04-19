@@ -5,10 +5,10 @@
 using namespace gui;
 
 ControlsZoneComponent::ControlsZoneComponent(IPlayerController* controller) : _controller(controller) {
-    sf::Font* font = FontLoader::loadFont(Font::Inconsolata);
-    _buttons[0] = new Button("Piger", font);
-    _buttons[1] = new Button("Confirmer", font);
-    _buttons[2] = new Button("Annuler", font);
+    _font = FontLoader::loadFont(Font::Inconsolata);
+    _buttons[0] = new Button("Piger", _font);
+    _buttons[1] = new Button("Confirmer", _font);
+    _buttons[2] = new Button("Annuler", _font);
     for (int i = 0; i < _nbButtons; i++) {
         _buttons[i]->setFillColor(_buttonColor);
         _buttons[i]->setOutlineColor(sf::Color::Black);
@@ -20,6 +20,7 @@ ControlsZoneComponent::~ControlsZoneComponent() {
     for (int i = 0; i < _nbButtons; i++) {
         delete _buttons[i];
     }
+    delete _font;
 }
 
 void ControlsZoneComponent::setPosition(float x, float y) {

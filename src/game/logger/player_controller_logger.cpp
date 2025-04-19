@@ -1,7 +1,7 @@
 #include <game/logger/player_controller_logger.h>
 
-PlayerControllerLogger::PlayerControllerLogger(IPlayerController* controller, ILogger* logger)
-    : _controller(controller), _logger(logger)
+PlayerControllerLogger::PlayerControllerLogger(IPlayerController* controller, std::string playerName, ILogger* logger)
+    : _controller(controller), _playerName(playerName), _logger(logger)
 {}
 
 PlayerControllerLogger::~PlayerControllerLogger() {
@@ -10,6 +10,7 @@ PlayerControllerLogger::~PlayerControllerLogger() {
 
 void PlayerControllerLogger::draw() {
     _logger->log("PlayerController::draw");
+    _logger->log(_playerName + " played", LogType::Info);
     _controller->draw();
 }
 
@@ -20,7 +21,11 @@ bool PlayerControllerLogger::addAction(Action* action) {
 
 bool PlayerControllerLogger::commitActions() {
     _logger->log("PlayerController::commitActions");
-    return _controller->commitActions();
+    bool played = _controller->commitActions();
+    if (played) {
+        _logger->log(_playerName + " played", LogType::Info);
+    }
+    return played;
 }
 
 void PlayerControllerLogger::cancelActions() {

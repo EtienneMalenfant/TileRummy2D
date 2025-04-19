@@ -90,10 +90,11 @@ namespace ActionsAnalyserTest {
 
             std::list<std::list<Action*>*>* actionsLists = gameState->toActions();
             std::list<Action*>* actions = actionsLists->front();
+            Test::validate(actionsLists->size() == 1, __func__);
             Test::validate(actions->size() == 4, __func__);
 
             Action expectedActions[4] = {Action{13, -1, -1}, Action{14, 13, -1}, Action{8, 14, -1}, Action{9, 8, -1}};
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 4; i++) {
                 Action* action = actions->front();
                 actions->pop_front();
                 Test::validate(action->toString() == expectedActions[i].toString(), __func__);
@@ -188,6 +189,7 @@ namespace ActionsAnalyserTest {
             Test::validate(actionsLists->size() == 1, __func__);
             std::list<Action*>* actions = actionsLists->front();
             Test::validate(actions->size() == 3, __func__);
+            cleanActionsLists(actionsLists);
         }
 
         void runMeldBuilderTests() {

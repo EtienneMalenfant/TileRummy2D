@@ -5,8 +5,8 @@
 
 using namespace bot;
 
-BotPlayer::BotPlayer(IPlayerController* controller, IPlayer* player, IActionsAnalyser* insertionsAnalyser, IActionsAnalyser* newMeldsAnalyser)
-    : _controller(controller), _player(player), _insertionsAnalyser(insertionsAnalyser), _newMeldsAnalyser(newMeldsAnalyser) {}
+BotPlayer::BotPlayer(IPlayerController* controller, IPlayer* player, IActionsAnalyser* insertionsAnalyser, IActionsAnalyser* newMeldsAnalyser, ILogger* logger)
+    : _controller(controller), _player(player), _insertionsAnalyser(insertionsAnalyser), _newMeldsAnalyser(newMeldsAnalyser), _logger(logger) {}
 
 BotPlayer::~BotPlayer() {
     delete _controller;
@@ -108,8 +108,10 @@ bool BotPlayer::playInsertions() {
             bool hasAddedAction = _controller->addAction(action);
             if (hasAddedAction == false) {
                 _controller->cancelActions();
+                std::string errorMessage = "Un bot a essayé de jouer une action impossible";
+                _logger->log(errorMessage, LogType::Error);
                 #ifdef DEBUG
-                    throw std::runtime_error("Un bot a essayé de jouer une action impossible");
+                    throw std::runtime_error(errorMessage);
                 #endif
             }
             hasPlayed = true;
@@ -161,9 +163,12 @@ void BotPlayer::update(ptr<IEvent> event) {
             if (commitIsValid == false) {
                 // ne devrait pas arriver, c pour m'avertir
                 _controller->cancelActions();
+                std::string errorMessage = "Les actions d'un joueur bot ont ete refusees";
+                _logger->log(errorMessage, LogType::Error);
                 #ifdef DEBUG
-                    throw std::runtime_error("Les actions d'un joueur bot ont ete refusees");
+                    throw std::runtime_error(errorMessage);
                 #endif
+                _controller->draw();
             }
         }
         // sinon on pige

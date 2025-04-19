@@ -75,7 +75,12 @@ bool MeldsManagerContainer::addTileAt(Tile2D* tile, const sf::Vector2f& position
     if (meld != nullptr) {
         return meld->addTileAt(tile, position);
     }
-    return _playerController->addAction(new Action{tile->getTileData()->uid, -1, -1});
+    Action* action = new Action{tile->getTileData()->uid, -1, -1};
+    bool couldPlay = _playerController->addAction(action);
+    if (!couldPlay) {
+        delete action;
+    }
+    return couldPlay;
 }
 
 void MeldsManagerContainer::previewTileAt(sf::Transformable& placeholder, const sf::Vector2f& position) {

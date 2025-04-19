@@ -100,6 +100,7 @@ namespace ActionsAnalyserTest {
         // il pourrait détecter 2,3,4,5 rouge, ou 5r, 5j, 5n, mais pas les deux
         std::list<std::list<Action*>*>* newMeldsActions = analyser->getActionsSequences(tiles, true);
         Test::validate(newMeldsActions->size() == 1, __func__);
+        deleteActions(newMeldsActions);
         delete analyser;
     }
 

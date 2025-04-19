@@ -13,6 +13,7 @@ enum class LogType {
 class ILogger {
 protected:
     std::string getTimeStamp();
+    std::string getLogTypeString(LogType type);
 public:
     virtual void log(const std::string& message) = 0;
     virtual void log(const std::string& message, LogType type) = 0;

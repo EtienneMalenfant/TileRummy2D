@@ -17,6 +17,7 @@ namespace bot {
         IPlayer* _player;
         IActionsAnalyser* _newMeldsAnalyser;
         IActionsAnalyser* _insertionsAnalyser;
+        ILogger* _logger;
         bool _useJoker {false};
 
         std::list<std::list<Action*>*>* _newMelds {};
@@ -33,7 +34,7 @@ namespace bot {
         bool playSomething();
         bool playInsertions();
         public:
-        BotPlayer(IPlayerController* controller, IPlayer* player, IActionsAnalyser* insertionsAnalyser, IActionsAnalyser* newMeldsAnalyser);
+        BotPlayer(IPlayerController* controller, IPlayer* player, IActionsAnalyser* insertionsAnalyser, IActionsAnalyser* newMeldsAnalyser, ILogger* logger);
         ~BotPlayer() override;
 
         void update(ptr<IEvent> event) override;

@@ -17,6 +17,11 @@ const Tile* PlayerFirstMeldHandler::getTile(int tileId) {
             return tile;
         }
     }
+    for (const Tile* tile : _playedTiles) {
+        if (tile->uid == tileId) {
+            return tile;
+        }
+    }
     return nullptr;
 }
 
@@ -24,13 +29,8 @@ bool PlayerFirstMeldHandler::isPlayingOnHisTiles(Action* action) {
     if (action->destLeftTileUID == -1 && action->destRightTileUID == -1) {
         return true;
     }
-    for (const Tile* tile : *_player->getTiles()) {
+    for (const Tile* tile : _playedTiles) {
         if (tile->uid == action->destLeftTileUID || tile->uid == action->destRightTileUID) {
-            return true;
-        }
-    }
-    for (int id : _playersTilesId) {
-        if (id == action->destLeftTileUID || id == action->destRightTileUID) {
             return true;
         }
     }
@@ -49,11 +49,12 @@ bool PlayerFirstMeldHandler::addAction(Action* action) {
             return false;
         }
         const Tile* tile = getTile(action->srcTileUID);
+        // Vérifier que la tuile provien de son jeu
         if (tile == nullptr) {
             return false;
         }
         _points += tile->value;
-        _playersTilesId.push_back(action->srcTileUID);
+        _playedTiles.push_back(tile);
     }
     return _controller->addAction(action);
 }

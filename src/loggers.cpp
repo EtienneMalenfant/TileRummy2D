@@ -11,6 +11,16 @@ string ILogger::getTimeStamp() {
     return '[' + string(buffer) + "] ";
 }
 
+string ILogger::getLogTypeString(LogType type) {
+    switch (type) {
+        case LogType::Info: return "[INFO] ";
+        case LogType::Important: return "[IMPORTANT] ";
+        case LogType::Warning: return "[WARNING] ";
+        case LogType::Error: return "[ERROR] ";
+        default: return "[UNKNOWN] ";
+    }
+}
+
 // ------------------------------
 
 void ConsoleLogger::log(const string& message) {
@@ -38,5 +48,5 @@ void FileLogger::log(const string& message) {
 }
 
 void FileLogger::log(const string& message, LogType type) {
-    log(message);
+    log(getLogTypeString(type) + message);
 }

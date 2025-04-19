@@ -39,7 +39,7 @@ namespace bot {
         bool organizeNodePlacement(ITileNode* node, int recursionLevel);
     public:
         MeldBuilder() = default;
-        ~MeldBuilder() override = default;
+        ~MeldBuilder() override;
 
         IGameBuildState* buildGame(ITileGraph* tilGraph, bool useJoker) override;
     };

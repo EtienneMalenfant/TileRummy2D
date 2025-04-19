@@ -11,8 +11,9 @@ namespace gui {
     private:
         static const int _nbButtons = 3;
         Button* _buttons[_nbButtons];
+        sf::Font* _font;
         sf::Color _buttonColor = sf::Color(235, 174, 52);
-        
+
         IPlayerController* const _controller;
         const int _buttonSpacing = 15;
     public:
