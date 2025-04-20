@@ -16,7 +16,8 @@ make -j$(nproc)
 echo "Copying data files..."
 cd ..
 mkdir -p bin
-cp data/* -r bin
+mkdir -p bin/data
+cp -ru data bin/data
 cp build/TileRummy2D bin
 
 echo "Done. The game is in the bin directory."

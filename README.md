@@ -34,7 +34,8 @@ sudo apt install build-essential cmake git libxrandr-dev libfreetype6-dev libjpe
 **Compiling**
 
 1. Clone this git repo `git clone https://github.com/EtienneMalenfant/TileRummy2D`
-2. Run the install script `./install.sh`
+2. Cd into it `cd TileRummy2D`
+3. Run the install script `./install.sh`
 
 ## Game rules
 
