@@ -16,6 +16,26 @@ I made this public repo so I can show my project to others, as well as to offer 
 
 *Soon...*
 
+
+### Compiling instruction
+
+**Installing compiling tool and required libraries**
+
+Arch systems
+```
+sudo pacman -S base-devel cmake git
+```
+
+Debian systems
+```
+sudo apt install build-essential cmake git libxrandr-dev libfreetype6-dev libjpeg-dev libgl1-mesa-dev libxcursor-dev libudev-dev
+```
+
+**Compiling**
+
+1. Clone this git repo `git clone https://github.com/EtienneMalenfant/TileRummy2D`
+2. Run the install script `./install.sh`
+
 ## Game rules
 
 Rummy2D is a tile-based game inspired by classic Rummy mechanics. The goal is to form valid **sets** and **runs** using numbered tiles.

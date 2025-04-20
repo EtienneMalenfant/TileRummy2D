@@ -1,48 +1,77 @@
 cmake_minimum_required(VERSION 3.20)
-
 project(TileRummy2D VERSION 0.9)
 
-find_package(SFML 2.6 COMPONENTS graphics window system REQUIRED)
-find_package(Boost CONFIG REQUIRED COMPONENTS json)
-
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# set(CMAKE_BUILD_TYPE Release)
-set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE Release) # or Debug
 
+set(LIB_DIR "${CMAKE_SOURCE_DIR}/libs")
 
-file(GLOB_RECURSE SOURCES
-    ${PROJECT_SOURCE_DIR}/src/*.cpp
-)
-add_executable(TileRummy2D ${SOURCES})
+#link_directories(/usr/lib/x86_64-linux-gnu)
 
-target_compile_options(TileRummy2D PRIVATE
-    -fdiagnostics-color=always
-)
-
-target_include_directories( TileRummy2D PRIVATE
-    ${PROJECT_SOURCE_DIR}/include
-)
-
-# Release or Debug configs
-if(CMAKE_BUILD_TYPE STREQUAL "Release")
-    message("-- Release build")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -DNDEBUG")  # Enable optimizations and disable assertions
-    add_compile_definitions(RELEASE)
+# === Boost JSON ===
+if(EXISTS "${LIB_DIR}/boost")
+    message(STATUS "Using embedded Boost")
+    include_directories(${LIB_DIR}/boost)
+    add_compile_definitions(BOOST_ALL_NO_LIB)
+    set(BOOST_JSON_SRC
+        ${LIB_DIR}/boost/libs/json/src/src.cpp
+    )
 else()
-    message("-- Debug build")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -g")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_CXX_LINKER_FLAGS} -fsanitize=address")
-
-    add_compile_definitions(DEBUG)
+    message(STATUS "Using system Boost")
+    find_package(Boost REQUIRED COMPONENTS json)
+    include_directories(${Boost_INCLUDE_DIRS})
+    link_directories(${Boost_LIBRARY_DIRS})
 endif()
 
+# === SFML ===
+if(EXISTS "${LIB_DIR}/sfml")
+    message(STATUS "Using embedded SFML")
+    include_directories(${LIB_DIR}/sfml/include)
+    link_directories(${LIB_DIR}/sfml/lib)
+    find_package(OpenGL REQUIRED)
+    set(SFML_LIBS
+        sfml-graphics-s
+        sfml-window-s
+        sfml-system-s
+        pthread
+        X11
+        Xrandr
+        freetype
+        jpeg
+        GL
+        dl
+        Xcursor
+        udev 
+    )
+else()
+    message(STATUS "Using system SFML")
+    find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
+    set(SFML_LIBS sfml-graphics sfml-window sfml-system)
+endif()
 
-# Dependencies
-target_link_libraries(TileRummy2D PRIVATE
-    sfml-system
-    sfml-graphics
-    sfml-window
-    Boost::json
-)
+# === Compiler flags ===
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+    add_compile_definitions(RELEASE)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -DNDEBUG")
+else()
+    add_compile_definitions(DEBUG)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -fsanitize=address")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address")
+endif()
+
+# === Sources ===
+file(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp)
+
+add_executable(TileRummy2D ${SOURCES})
+
+target_include_directories(TileRummy2D PRIVATE ${PROJECT_SOURCE_DIR}/include)
+
+# === Link ===
+if(BOOST_JSON_SRC)
+    target_sources(TileRummy2D PRIVATE ${BOOST_JSON_SRC})
+endif()
+
+target_link_libraries(TileRummy2D PRIVATE ${SFML_LIBS})
+

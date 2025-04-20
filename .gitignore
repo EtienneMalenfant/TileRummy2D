@@ -5,3 +5,5 @@ logs
 .vscode
 bin
 TileRummy2D
+libs/boost
+libs/sfml
