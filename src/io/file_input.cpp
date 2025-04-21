@@ -1,5 +1,5 @@
 #include <io/file_input.h>
-#include <settings/paths.h>
+#include <io/paths.h>
 
 FileInput::FileInput(const std::string& path) {
     file = std::ifstream(paths::dataRoot + path);

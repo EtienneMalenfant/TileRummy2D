@@ -1,5 +1,5 @@
 #include <gui/utilities/font_loader.h>
-#include <settings/paths.h>
+#include <io/paths.h>
 
 using namespace gui;
 

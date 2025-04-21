@@ -7,7 +7,7 @@
 #include <console_logger.h>
 #include <tests/test.h>
 #include <settings/settings_loader.h>
-#include <settings/paths.h>
+#include <io/paths.h>
 
 int main(int argc, char** argv) {
 
