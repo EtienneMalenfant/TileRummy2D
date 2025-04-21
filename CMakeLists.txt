@@ -4,7 +4,7 @@ project(TileRummy2D VERSION 0.9)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(CMAKE_BUILD_TYPE Release) # or Debug
+#set(CMAKE_BUILD_TYPE Release)
 
 set(LIB_DIR "${CMAKE_SOURCE_DIR}/libs")
 
@@ -54,9 +54,11 @@ endif()
 # === Compiler flags ===
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
     add_compile_definitions(RELEASE)
+    message("-- Release build")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -DNDEBUG")
 else()
     add_compile_definitions(DEBUG)
+    message("-- Debug build")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -fsanitize=address")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address")
 endif()
