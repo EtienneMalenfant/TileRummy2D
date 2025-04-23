@@ -23,7 +23,7 @@ I made this public repo so I can show my project to others, as well as to offer 
 
 Arch systems
 ```
-sudo pacman -S base-devel cmake git
+sudo pacman -S base-devel cmake git libxrandr freetype2 libjpeg-turbo mesa libxcursor libudev0-shim
 ```
 
 Debian systems
