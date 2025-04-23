@@ -1,5 +1,7 @@
 #include <logger.h>
 #include <io/file_output.h>
+#include <io/paths.h>
+#include <filesystem>
 
 using namespace std;
 
@@ -33,10 +35,12 @@ void ConsoleLogger::log(const string& message, LogType type) {
 
 // ------------------------------
 
-const string FileLogger::_logDir { "logs/" };
 
 FileLogger::FileLogger(const string& filename, bool overwrite) {
-    _file = new FileOutput(_logDir + filename, overwrite);
+    if (!filesystem::exists(paths::logDir)) {
+        filesystem::create_directories(paths::logDir);
+    }
+    _file = new FileOutput(paths::logDir + filename, overwrite);
 }
 
 FileLogger::~FileLogger() {

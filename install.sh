@@ -19,7 +19,8 @@ fi
 cd ..
 
 echo "Building TileRummy2D..."
-mkdir -p build
+rm -r build
+mkdir build
 cd build
 cmake -DCMAKE_BUILD_TYPE=Release ..
 make -j$(nproc)

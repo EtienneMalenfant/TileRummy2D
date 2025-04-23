@@ -30,7 +30,6 @@ public:
 class FileLogger : public ILogger {
 private:
     IOutputStream* _file;
-    static const std::string _logDir;
 public:
     FileLogger(const std::string& filename, bool overwrite = false);
     ~FileLogger() override;
