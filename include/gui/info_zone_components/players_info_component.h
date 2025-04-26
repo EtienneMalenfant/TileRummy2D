@@ -5,14 +5,14 @@
 #include <gui/components/container.h>
 
 namespace gui {
-    
+
     class PlayersInfoComponent : public Container, public IUpdateable {
         private:
             const std::vector<IPlayer*>* const _players;
             sf::Text _playersInfo[4];
             const int _nbPlayers;
             const sf::Font* _font;
-            const u_int _fontSize = 20;
+            const int _fontSize = 20;
 
             void updatePosition();
         public:
@@ -25,5 +25,5 @@ namespace gui {
             void update() override;
             void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
         };
-    
+
 }

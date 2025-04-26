@@ -11,45 +11,43 @@ set(LIB_DIR "${CMAKE_SOURCE_DIR}/libs")
 #link_directories(/usr/lib/x86_64-linux-gnu)
 
 # === Boost JSON ===
-if(EXISTS "${LIB_DIR}/boost")
-    message(STATUS "Using embedded Boost")
-    include_directories(${LIB_DIR}/boost)
-    add_compile_definitions(BOOST_ALL_NO_LIB)
-    set(BOOST_JSON_SRC
-        ${LIB_DIR}/boost/libs/json/src/src.cpp
-    )
-else()
-    message(STATUS "Using system Boost")
-    find_package(Boost REQUIRED COMPONENTS json)
-    include_directories(${Boost_INCLUDE_DIRS})
-    link_directories(${Boost_LIBRARY_DIRS})
-endif()
+message(STATUS "Using embedded Boost")
+include_directories(${LIB_DIR}/boost)
+set(BOOST_JSON_SRC
+    ${LIB_DIR}/boost/libs/json/src/src.cpp
+)
 
 # === SFML ===
-if(EXISTS "${LIB_DIR}/sfml")
-    message(STATUS "Using embedded SFML")
-    include_directories(${LIB_DIR}/sfml/include)
-    link_directories(${LIB_DIR}/sfml/lib)
-    find_package(OpenGL REQUIRED)
-    set(SFML_LIBS
-        sfml-graphics-s
-        sfml-window-s
-        sfml-system-s
+message(STATUS "Using embedded SFML")
+include_directories(${LIB_DIR}/sfml/include)
+link_directories(${LIB_DIR}/sfml/lib)
+find_package(OpenGL REQUIRED)
+set(SFML_LIBS
+    sfml-graphics-s
+    sfml-window-s
+    sfml-system-s
+    freetype
+)
+
+if(WIN32)
+    add_compile_definitions(SFML_STATIC)
+    list(APPEND SFML_LIBS
+        opengl32
+        winmm
+        gdi32
+    )
+else()
+    list(APPEND SFML_LIBS
         pthread
         X11
         Xrandr
-        freetype
-        jpeg
         GL
         dl
         Xcursor
-        udev 
+        udev
     )
-else()
-    message(STATUS "Using system SFML")
-    find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
-    set(SFML_LIBS sfml-graphics sfml-window sfml-system)
 endif()
+
 
 # === Compiler flags ===
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
@@ -63,6 +61,12 @@ else()
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address")
 endif()
 
+# === Static linking of runtime on Windows ===
+if(MINGW)
+    message("-- Compiling for Windows - enabling static linking of libgcc/libstdc++")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -static-libstdc++")
+endif()
+
 # === Sources ===
 file(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp)
 
@@ -71,9 +75,6 @@ add_executable(TileRummy2D ${SOURCES})
 target_include_directories(TileRummy2D PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
 # === Link ===
-if(BOOST_JSON_SRC)
-    target_sources(TileRummy2D PRIVATE ${BOOST_JSON_SRC})
-endif()
-
+target_sources(TileRummy2D PRIVATE ${BOOST_JSON_SRC})
 target_link_libraries(TileRummy2D PRIVATE ${SFML_LIBS})
 

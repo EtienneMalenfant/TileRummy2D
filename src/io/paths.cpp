@@ -12,7 +12,7 @@ const std::string paths::getExecutablePath() {
 #if defined(_WIN32)
     char path[MAX_PATH];
     GetModuleFileNameA(NULL, path, MAX_PATH);
-    return std::filesystem::path(path).parent_path();
+    return std::filesystem::path(path).parent_path().string();
 
 #elif defined(__linux__)
     char path[4096];

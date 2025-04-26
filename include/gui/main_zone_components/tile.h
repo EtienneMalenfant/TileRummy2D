@@ -8,11 +8,11 @@ namespace gui {
     struct TileInfo {
     public:
         const sf::Color tileColor;
-        const u_int valueSize;
-        const u_int jokerSize;
+        const int valueSize;
+        const int jokerSize;
         const sf::Font* font;
-        const static u_int tileWidth = 55;
-        const static u_int tileHeight = 80;
+        const static int tileWidth = 55;
+        const static int tileHeight = 80;
     };
 
     class Tile2D : public Container {

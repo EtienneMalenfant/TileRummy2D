@@ -23,12 +23,12 @@ I made this public repo so I can show my project to others, as well as to offer 
 
 Arch systems
 ```
-sudo pacman -S base-devel cmake git libxrandr freetype2 libjpeg-turbo mesa libxcursor libudev0-shim
+sudo pacman -S base-devel cmake git libxrandr freetype2 mesa libxcursor libudev0-shim
 ```
 
 Debian systems
 ```
-sudo apt install build-essential cmake git libxrandr-dev libfreetype6-dev libjpeg-dev libgl1-mesa-dev libxcursor-dev libudev-dev
+sudo apt install build-essential cmake git libxrandr-dev libfreetype6-dev libgl1-mesa-dev libxcursor-dev libudev-dev
 ```
 
 **Compiling**

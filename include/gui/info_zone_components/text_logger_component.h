@@ -12,10 +12,10 @@ namespace gui {
         boost::circular_buffer<sf::Text*> _logs;
 
         sf::Font* _font;
-        u_int _capacity = 10;
-        const u_int _fontSize = 16;
-        const u_int _ySpacing = 10;
-        const u_int _margin = 10;
+        int _capacity = 10;
+        const int _fontSize = 16;
+        const int _ySpacing = 10;
+        const int _margin = 10;
         void updateLogsPosition();
 
         sf::Text* getTextLog(const std::string& message);
