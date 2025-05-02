@@ -14,10 +14,13 @@ I made this public repo so I can show my project to others, as well as to offer 
 
 ## Installation instructions
 
-*Soon...*
+### Windows Users
 
+You can download the .exe from the release section.
+Be aware there are some bugs, read the README.txt next to the executable once downloaded.
+Keep every files together, or it will break.
 
-### Compiling instruction
+### Compiling instruction for linux
 
 **Installing compiling tool and required libraries**
 
