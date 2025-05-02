@@ -17,7 +17,6 @@ protected:
     std::ifstream _file;
 public:
     BaseSettingsLoader(const std::string& fileName);
-    ~BaseSettingsLoader();
     boost::json::value getJsonContent();
 };
 

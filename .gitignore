@@ -3,7 +3,7 @@ build*
 .fuse*
 logs
 .vscode
-bin
+bin*
 TileRummy2D
 libs/boost
 libs/sfml

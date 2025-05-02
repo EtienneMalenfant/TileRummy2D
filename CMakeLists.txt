@@ -20,23 +20,34 @@ set(BOOST_JSON_SRC
 # === SFML ===
 message(STATUS "Using embedded SFML")
 include_directories(${LIB_DIR}/sfml/include)
-link_directories(${LIB_DIR}/sfml/lib)
+
 find_package(OpenGL REQUIRED)
 set(SFML_LIBS
     sfml-graphics-s
     sfml-window-s
     sfml-system-s
-    freetype
 )
 
 if(WIN32)
     add_compile_definitions(SFML_STATIC)
+    link_directories(${LIB_DIR}/sfml/lib-windows)
     list(APPEND SFML_LIBS
         opengl32
         winmm
         gdi32
+        ws2_32
+        user32
+        advapi32
+        ${LIB_DIR}/sfml/lib-windows/libfreetype.a
     )
+    message("-- Compiling for Windows - enabling static linking of runtime libraries")
+    # Force static linking of everything including winpthread
+    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+    set(BUILD_SHARED_LIBS OFF)
+
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -pthread -static -static-libgcc -static-libstdc++")
 else()
+    link_directories(${LIB_DIR}/sfml/lib)
     list(APPEND SFML_LIBS
         pthread
         X11
@@ -45,6 +56,7 @@ else()
         dl
         Xcursor
         udev
+        freetype
     )
 endif()
 
@@ -59,12 +71,6 @@ else()
     message("-- Debug build")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -fsanitize=address")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address")
-endif()
-
-# === Static linking of runtime on Windows ===
-if(MINGW)
-    message("-- Compiling for Windows - enabling static linking of libgcc/libstdc++")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -static-libstdc++")
 endif()
 
 # === Sources ===

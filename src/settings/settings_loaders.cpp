@@ -8,13 +8,6 @@ BaseSettingsLoader<T>::BaseSettingsLoader(const std::string& fileName) : _file(f
 }
 
 template <typename T>
-BaseSettingsLoader<T>::~BaseSettingsLoader() {
-    if (_file.is_open()) {
-        _file.close();
-    }
-}
-
-template <typename T>
 boost::json::value BaseSettingsLoader<T>::getJsonContent() {
     std::string jsonContent((std::istreambuf_iterator<char>(_file)), std::istreambuf_iterator<char>());
     return boost::json::parse(jsonContent);
